@@ -7,21 +7,21 @@ exports.submitEnquiry = async (req, res) => {
     const { name, email, phone, city, message } = req.body;
 
     // Validate required fields
-    if (!name || !phone) {
+    if (!name ) {
       return res.status(400).json({
         success: false,
-        message: 'Name and Phone are required fields',
+        message: 'Name is required',
       });
     }
 
     // Create enquiry in database
-    const enquiry = await Enquiry.create({
-      name,
-      email,
-      phone,
-      city,
-      message,
-    });
+   const enquiry = await Enquiry.create({
+  name,
+  email,
+  ...(phone && { phone }),
+  ...(city && { city }),
+  ...(message && { message }),
+});
 
     // Send email to admin
     const transporter = createTransporter();
