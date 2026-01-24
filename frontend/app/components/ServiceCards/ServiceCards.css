@@ -1,0 +1,59 @@
+/* =========================
+   SERVICE CARDS RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .service-cards-section {
+    padding: 60px 5% !important;
+  }
+
+  .service-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+
+  .service-card-item div[style*="height: 200px"] {
+    height: 180px !important;
+  }
+
+  .service-card-item div[style*="padding: 26px"] {
+    padding: 20px !important;
+  }
+
+  .service-card-item h3 {
+    font-size: 16px !important;
+  }
+
+  .service-card-item p {
+    font-size: 14px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-cards-section {
+    padding: 40px 4% !important;
+  }
+
+  .service-cards-grid {
+    gap: 24px !important;
+  }
+
+  .service-card-item div[style*="height: 200px"] {
+    height: 160px !important;
+  }
+
+  .service-card-item div[style*="padding: 26px"] {
+    padding: 16px !important;
+  }
+
+  .service-card-item h3 {
+    font-size: 15px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .service-card-item p {
+    font-size: 13px !important;
+    margin-bottom: 14px !important;
+  }
+}
+

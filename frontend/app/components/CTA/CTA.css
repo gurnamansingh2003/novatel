@@ -1,0 +1,71 @@
+/* =========================
+   CTA SECTION
+========================= */
+
+.cta {
+  background: linear-gradient(90deg, #2b2fd8, #4b4efc);
+  color: white;
+  padding: 40px 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  border-radius: 12px;
+  margin: 80px 0;
+}
+
+.cta h2 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.cta-btn {
+  padding: 14px 28px;
+  background: #111;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cta-btn:hover {
+  background: #000;
+}
+
+/* =========================
+   CTA RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .cta {
+    padding: 30px 6%;
+    margin: 60px 0;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cta h2 {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta {
+    padding: 24px 5%;
+    margin: 40px 0;
+    border-radius: 8px;
+  }
+
+  .cta h2 {
+    font-size: 18px;
+  }
+
+  .cta-btn {
+    width: 100%;
+    padding: 12px 24px;
+  }
+}
+

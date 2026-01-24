@@ -1,0 +1,244 @@
+.admin-login-container {
+  min-height: 100vh;
+  display: flex;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%);
+}
+
+/* Left Side - Blue Panel */
+.admin-login-left {
+  flex: 1;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  padding: 80px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 0 40px 40px 0;
+  box-shadow: 0 20px 60px rgba(37, 99, 235, 0.3);
+}
+
+.admin-login-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.admin-login-subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 60px;
+  line-height: 1.6;
+}
+
+.admin-features {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.admin-feature {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.feature-icon svg {
+  color: white;
+}
+
+.admin-feature span {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+/* Right Side - Login Form */
+.admin-login-right {
+  flex: 1;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.back-to-home {
+  position: absolute;
+  top: 40px;
+  left: 60px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #2563eb;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-to-home:hover {
+  gap: 12px;
+  color: #1d4ed8;
+}
+
+.login-form-wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.form-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.form-subtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
+  margin-bottom: 40px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.error-message {
+  padding: 12px 16px;
+  background: #fee2e2;
+  color: #dc2626;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 16px;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.form-input {
+  width: 100%;
+  padding: 16px 16px 16px 48px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+.login-button {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(37, 99, 235, 0.3);
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .admin-login-left {
+    padding: 60px 40px;
+  }
+
+  .admin-login-right {
+    padding: 60px 40px;
+  }
+
+  .back-to-home {
+    left: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-login-container {
+    flex-direction: column;
+  }
+
+  .admin-login-left {
+    border-radius: 0 0 40px 40px;
+    padding: 40px 30px;
+  }
+
+  .admin-login-title {
+    font-size: 2rem;
+  }
+
+  .admin-login-subtitle {
+    font-size: 1rem;
+    margin-bottom: 40px;
+  }
+
+  .admin-login-right {
+    padding: 40px 30px;
+  }
+
+  .back-to-home {
+    position: static;
+    margin-bottom: 30px;
+  }
+
+  .form-title {
+    font-size: 2rem;
+  }
+
+  .form-subtitle {
+    font-size: 1rem;
+  }
+}

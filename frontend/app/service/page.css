@@ -1,0 +1,27 @@
+/* =========================
+   SERVICE PAGE RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .service-hero {
+    height: 300px !important;
+  }
+
+  .service-hero-title {
+    font-size: 28px !important;
+    padding: 12px 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-hero {
+    height: 250px !important;
+  }
+
+  .service-hero-title {
+    font-size: 22px !important;
+    padding: 10px 16px !important;
+    letter-spacing: 0.5px !important;
+  }
+}
+

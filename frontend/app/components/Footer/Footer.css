@@ -1,0 +1,44 @@
+/* =========================
+   FOOTER
+========================= */
+
+@media (max-width: 768px) {
+  footer[style*="backgroundColor: #f7f7f7"] {
+    padding: 40px 16px !important;
+  }
+
+  footer[style*="backgroundColor: #f7f7f7"] div[style*="maxWidth: 1200px"] {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+
+  footer[style*="backgroundColor: #f7f7f7"] div[style*="display: flex"][style*="marginTop: 16px"] {
+    flex-direction: column !important;
+  }
+
+  footer[style*="backgroundColor: #f7f7f7"] input {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+
+  footer[style*="backgroundColor: #f7f7f7"] button {
+    width: 100% !important;
+    padding: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  footer[style*="backgroundColor: #f7f7f7"] {
+    padding: 30px 12px !important;
+  }
+
+  footer[style*="backgroundColor: #f7f7f7"] h3 {
+    font-size: 16px !important;
+  }
+
+  footer[style*="backgroundColor: #f7f7f7"] p,
+  footer[style*="backgroundColor: #f7f7f7"] li {
+    font-size: 13px !important;
+  }
+}
+

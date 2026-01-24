@@ -1,0 +1,320 @@
+/* ======================
+   HERO SECTION - FULL PAGE
+====================== */
+.enterprise-networking-page {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.enterprise-networking-page .hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  height: 100vh;
+  background-image: url('/images/av-hero-bg.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.enterprise-networking-page .hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 58, 138, 0.6));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.enterprise-networking-page .hero-content {
+  max-width: 1200px;
+  color: white;
+  text-align: center;
+  padding: 0 20px;
+  z-index: 2;
+  position: relative;
+}
+
+.enterprise-networking-page .hero-title {
+  font-size: 5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
+  letter-spacing: -1px;
+}
+
+.enterprise-networking-page .hero-subtitle {
+  font-size: 1.75rem;
+  line-height: 1.6;
+  font-weight: 300;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ======================
+   CONTENT SECTION
+====================== */
+.enterprise-networking-page .content-section {
+  padding: 100px 0;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+
+.enterprise-networking-page .content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.enterprise-networking-page .content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  margin-bottom: 100px;
+}
+
+.enterprise-networking-page .image-container {
+  position: relative;
+}
+
+.enterprise-networking-page .solution-image {
+  width: 100%;
+  height: auto;
+  border-radius: 25px;
+  box-shadow: 0 15px 50px rgba(99, 102, 241, 0.2);
+  transition: all 0.4s ease;
+}
+
+.enterprise-networking-page .solution-image:hover {
+  transform: scale(1.03);
+  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+}
+
+.enterprise-networking-page .text-container {
+  padding: 20px;
+}
+
+.enterprise-networking-page .section-title {
+  font-size: 2.75rem;
+  color: #4f46e5;
+  margin-bottom: 2rem;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.enterprise-networking-page .section-description {
+  font-size: 1.125rem;
+  line-height: 1.9;
+  color: #475569;
+  margin-bottom: 1.5rem;
+}
+
+.enterprise-networking-page .enquiry-btn {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+  padding: 18px 45px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+  margin-top: 25px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.enterprise-networking-page .enquiry-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+}
+
+/* ======================
+   FEATURES SECTION
+====================== */
+.enterprise-networking-page .features-section {
+  padding: 80px 50px;
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  margin-bottom: 80px;
+}
+
+.enterprise-networking-page .features-title {
+  font-size: 2.75rem;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 60px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.enterprise-networking-page .features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 35px;
+}
+
+.enterprise-networking-page .feature-card {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid transparent;
+}
+
+.enterprise-networking-page .feature-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: #6366f1;
+  box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2);
+}
+
+.enterprise-networking-page .feature-icon {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+}
+
+.enterprise-networking-page .feature-card h3 {
+  font-size: 1.5rem;
+  color: #4f46e5;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.enterprise-networking-page .feature-card p {
+  font-size: 1.05rem;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+/* ======================
+   BENEFITS SECTION
+====================== */
+.enterprise-networking-page .benefits-section {
+  padding: 80px 50px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+}
+
+.enterprise-networking-page .benefits-title {
+  font-size: 2.75rem;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 60px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.enterprise-networking-page .benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+}
+
+.enterprise-networking-page .benefit-item {
+  background: white;
+  padding: 40px 35px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s ease;
+  border-left: 5px solid #6366f1;
+  position: relative;
+}
+
+.enterprise-networking-page .benefit-item:hover {
+  transform: translateX(10px);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+}
+
+.enterprise-networking-page .benefit-number {
+  position: absolute;
+  top: -15px;
+  left: 30px;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+}
+
+.enterprise-networking-page .benefit-item h3 {
+  font-size: 1.5rem;
+  color: #1e293b;
+  margin: 20px 0 15px;
+  font-weight: 700;
+}
+
+.enterprise-networking-page .benefit-item p {
+  font-size: 1.05rem;
+  color: #64748b;
+  line-height: 1.8;
+}
+
+/* ======================
+   RESPONSIVE DESIGN
+====================== */
+@media (max-width: 1024px) {
+  .enterprise-networking-page .hero-title {
+    font-size: 4rem;
+  }
+
+  .enterprise-networking-page .hero-subtitle {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .enterprise-networking-page .hero-section {
+    min-height: 100vh;
+    background-attachment: scroll;
+  }
+
+  .enterprise-networking-page .hero-title {
+    font-size: 3rem;
+  }
+
+  .enterprise-networking-page .hero-subtitle {
+    font-size: 1.25rem;
+  }
+
+  .enterprise-networking-page .content-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .enterprise-networking-page .features-grid,
+  .enterprise-networking-page .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .enterprise-networking-page .hero-title {
+    font-size: 2rem;
+  }
+
+  .enterprise-networking-page .hero-subtitle {
+    font-size: 1rem;
+  }
+}

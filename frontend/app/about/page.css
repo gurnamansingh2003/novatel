@@ -1,0 +1,42 @@
+/* =========================
+   ABOUT PAGE RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .about-hero {
+    height: 250px !important;
+  }
+
+  .about-content {
+    padding: 40px 30px !important;
+  }
+
+  .about-content h2 {
+    font-size: 20px !important;
+  }
+
+  .about-content p {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-hero {
+    height: 200px !important;
+  }
+
+  .about-content {
+    padding: 30px 20px !important;
+  }
+
+  .about-content h2 {
+    font-size: 18px !important;
+  }
+
+  .about-content p {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+}
+

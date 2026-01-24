@@ -1,0 +1,62 @@
+/* =========================
+   SERVICE DETAIL RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .service-detail-section {
+    padding: 50px 20px !important;
+  }
+
+  .service-detail-container {
+    flex-direction: column !important;
+    gap: 30px !important;
+  }
+
+  .service-detail-text {
+    min-width: 100% !important;
+  }
+
+  .service-detail-title {
+    font-size: 1.8rem !important;
+    margin-bottom: 16px !important;
+  }
+
+  .service-detail-desc {
+    font-size: 1rem !important;
+    margin-bottom: 16px !important;
+  }
+
+  .service-detail-item {
+    font-size: 0.95rem !important;
+  }
+
+  .service-detail-image-wrapper {
+    min-width: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-detail-section {
+    padding: 40px 16px !important;
+  }
+
+  .service-detail-container {
+    gap: 24px !important;
+  }
+
+  .service-detail-title {
+    font-size: 1.5rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  .service-detail-desc {
+    font-size: 0.95rem !important;
+    margin-bottom: 14px !important;
+  }
+
+  .service-detail-item {
+    font-size: 0.9rem !important;
+    margin-bottom: 8px !important;
+  }
+}
+
