@@ -1,5 +1,8 @@
-export const phonesProducts = [
+import type { DistributionProduct } from "../types";
+
+export const phonesProducts: DistributionProduct[] = [
   {
+    id: "phones-1",
     slug: "NEOPHONE-FKT-01-B",
     name: "NEOPHONE FKT 01 B",
     image: "/images/phones/NEOPHONE-FKT-01-B.jpg",
@@ -24,6 +27,7 @@ export const phonesProducts = [
     ]
   },
   {
+    id: "phones-2",
     slug: "NEOPHONE-FKT-03-C",
     name: "NEOPHONE FKT 03 C",
     image: "/images/phones/NEOPHONE-FKT-03-C.jpg",
@@ -44,6 +48,7 @@ export const phonesProducts = [
     ]
   },
    {
+    id: "phones-3",
     slug: "ALE-20",
     name: "ALE 20",
     image: "/images/phones/ALE-20.jpg",
@@ -63,6 +68,7 @@ export const phonesProducts = [
     ]
   },
    {
+    id: "phones-4",
     slug: "ALE-20h",
     name: "ALE 20h",
     image: "/images/phones/ALE-20.jpg",
@@ -82,6 +88,7 @@ export const phonesProducts = [
     ]
   },
    {
+    id: "phones-5",
     slug: "ALE-30",
     name: "ALE 30",
     image: "/images/phones/ALE-30.jpg",

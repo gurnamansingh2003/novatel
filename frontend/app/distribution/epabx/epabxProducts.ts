@@ -1,90 +1,8 @@
-/*export const epabxProducts = [
-  {
-    slug: "alcatel-lucent-oxo-connect-evolution",
-    name: "Alcatel Lucent OXO Connect Evolution",
-    image: "/images/OXO-Connect-Evolution.jpg",
-    description: "Next-gen IP PBX",
-    features: ["Voicemail", "Auto Attendant"],
-  },
-  {
-    slug: "neos-nexgen lite",
-    name: "Neos Nexgen Lite",
-    image: "/images/neos-nexgen lite.jpeg",
-    description: "Next-gen IP PBX",
-    features: ["Voicemail", "Auto Attendant"],
-  },
-  {
-    slug: "neos-4s",
-    name: "Neos 4S",
-    image: "/images/Neos-4S.jpg",
-    description: "Next-gen IP PBX",
-    features: ["Voicemail", "Auto Attendant"],
-  },
-  {
-    slug: "neos-6s",
-    name: "Neos 6S",
-    image: "/images/Neos-4S.jpg",
-    description: "Next-gen IP PBX",
-    features: ["Voicemail", "Auto Attendant"],
-  },
-  {
-    slug: "alcatel-lucent-omniPCX-enterprise",
-    name: "Alcatel Lucent OmniPCX Enterprise",
-    image: "/images/OmniPCX.jpg",
-    description: "Next-gen IP PBX",
-    features: ["Voicemail", "Auto Attendant"],
-  },
-  {
-    slug: "neos-telestar",
-    name: "Neos TeleStar",
-    image: "/images/neos-telestar-01.jpg",
-    description: "Next-gen IP PBX",
-    features: ["Voicemail", "Auto Attendant"],
-  },
-  {
-    slug: "neos-infinity-c",
-    name: "Neos Infinity C",
-    image: "/images/Neos-Infinity-C.jpg",
-    description: "Next-gen IP PBX",
-    features: ["Voicemail", "Auto Attendant"],
-  },
-  {
-    slug: "neos-nexgen",
-    name: "Neos Nexgen",
-    image: "/images/neos-nexgen.jpg",
-    description: "Next-gen IP PBX",
-    features: ["Voicemail", "Auto Attendant"],
-  },
-   {
-    slug: "alcatel-lucent-oxo-connect",
-    name: "Alcatel Lucent OXO Connect",
-    image: "/images/OXO-Connect.jpg",
-    description: "Next-gen IP PBX",
-    features: ["Voicemail", "Auto Attendant"],
-  },
-  
-];*/
-export interface EpabxProduct {
-  slug: string;
-  name: string;
-  image: string;
-  description: string;
-  fullDescription?: string;
-  features: string[];
-  categories?: string[];
-  specifications?: {
-    label: string;
-    value: string;
-  }[];
-  benefits?: string[];
-  downloads?: {
-    name: string;
-    url: string;
-  }[];
-}
+import type { DistributionProduct } from "../types";
 
-export const epabxProducts: EpabxProduct[] = [
+export const epabxProducts: DistributionProduct[] = [
   {
+    id: "epabx-1",
     slug: "alcatel-lucent-oxo-connect-evolution",
     name: "Alcatel Lucent OXO Connect Evolution",
     image: "/images/OXO-Connect-Evolution.jpg",
@@ -111,6 +29,7 @@ export const epabxProducts: EpabxProduct[] = [
     ]
   },
   {
+    id: "epabx-2",
     slug: "neos-nexgen-lite",
     name: "Neos Nexgen Lite",
     image: "/images/neos-nexgen lite.jpeg",
@@ -130,6 +49,7 @@ export const epabxProducts: EpabxProduct[] = [
     ]
   },
   {
+    id: "epabx-3",
     slug: "neos-4s",
     name: "Neos 4S",
     image: "/images/Neos-4S.jpg",
@@ -144,6 +64,7 @@ export const epabxProducts: EpabxProduct[] = [
     categories: ["Neos", "EPABX", "Voice"]
   },
   {
+    id: "epabx-4",
     slug: "neos-6s",
     name: "Neos 6S",
     image: "/images/Neos-4S.jpg",
@@ -158,6 +79,7 @@ export const epabxProducts: EpabxProduct[] = [
     categories: ["Neos", "EPABX", "Voice"]
   },
   {
+    id: "epabx-5",
     slug: "alcatel-lucent-omnipcx-enterprise",
     name: "Alcatel Lucent OmniPCX Enterprise",
     image: "/images/OmniPCX.jpg",
@@ -183,6 +105,7 @@ export const epabxProducts: EpabxProduct[] = [
     ]
   },
   {
+    id: "epabx-6",
     slug: "neos-telestar",
     name: "Neos TeleStar",
     image: "/images/neos-telestar-01.jpg",
@@ -197,6 +120,7 @@ export const epabxProducts: EpabxProduct[] = [
     categories: ["Neos", "EPABX", "Voice"]
   },
   {
+    id: "epabx-7",
     slug: "neos-infinity-c",
     name: "Neos Infinity C",
     image: "/images/Neos-Infinity-C.jpg",
@@ -211,6 +135,7 @@ export const epabxProducts: EpabxProduct[] = [
     categories: ["Neos", "EPABX", "Voice"]
   },
   {
+    id: "epabx-8",
     slug: "neos-nexgen",
     name: "Neos Nexgen",
     image: "/images/neos-nexgen.jpg",
@@ -225,6 +150,7 @@ export const epabxProducts: EpabxProduct[] = [
     categories: ["Neos", "EPABX", "Voice"]
   },
   {
+    id: "epabx-9",
     slug: "alcatel-lucent-oxo-connect",
     name: "Alcatel Lucent OXO Connect",
     image: "/images/OXO-Connect.jpg",

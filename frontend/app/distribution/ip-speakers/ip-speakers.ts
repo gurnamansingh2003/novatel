@@ -1,17 +1,8 @@
-export type IPSpeaker = {
-  slug: string;
-  name: string;
-  image: string;
-  description: string;
-  fullDescription?: string;
-  features?: string[];
-  categories?: string[];
-  specifications?: { label: string; value: string }[];
-  benefits?: string[];
-};
+import type { DistributionProduct } from "../types";
 
-export const ipSpeakers: IPSpeaker[] = [
+export const ipSpeakers: DistributionProduct[] = [
   {
+    id: "ip-1",
     slug: "pa-ceiling-speaker",
     name: "PA Ceiling Speaker",
     image: "/images/ip-speakers/Ceiling-speaker-3.png",
@@ -32,6 +23,7 @@ export const ipSpeakers: IPSpeaker[] = [
     ]
   },
   {
+    id: "ip-2",
     slug: "pa-horn-speaker",
     name: "PA Horn Speaker",
     image: "/images/ip-speakers/Horn-speaker-1.png",
@@ -52,6 +44,7 @@ export const ipSpeakers: IPSpeaker[] = [
     ]
   },
   {
+    id: "ip-3",
     slug: "pa-wall-mount-speaker",
     name: "PA Wall Mount Speaker",
     image: "/images/ip-speakers/Wall-mount-speaker-1.png",

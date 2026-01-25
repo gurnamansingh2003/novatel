@@ -12,8 +12,8 @@ export default function PhonesPage() {
         <div className="product-grid">
           {phonesProducts.map((p) => (
             <Link
-              key={p.slug}
-              href={`/distribution/phones/${p.slug}`}
+              key={p.id}
+              href={`/distribution/phones/${p.id}`}
             >
               <ProductCard product={p} />
             </Link>

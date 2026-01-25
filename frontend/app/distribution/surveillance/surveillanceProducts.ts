@@ -1,5 +1,8 @@
-export const surveillanceProducts = [
+import type { DistributionProduct } from "../types";
+
+export const surveillanceProducts: DistributionProduct[] = [
   {
+    id: "1",
     slug: "NT-IDN22V",
     name: "NT IDN22V",
     image: "/images/surveillance/NT-IDN22V.jpg",
@@ -25,6 +28,7 @@ export const surveillanceProducts = [
     ]
   },
   {
+    id: "2",
     slug: "NP-IPS25",
     name: "NP IPS25",
     image: "/images/surveillance/NP-IPS25.jpg",
@@ -50,6 +54,7 @@ export const surveillanceProducts = [
     ]
   },
   {
+    id: "3",
     slug: "NT-IDS15",
     name: "NT IDS15",
     image: "/images/surveillance/NT-IDS15.jpg",

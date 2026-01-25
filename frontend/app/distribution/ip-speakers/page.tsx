@@ -1,22 +1,20 @@
 import "../page.css";
 import Link from "next/link";
 import { ipSpeakers } from "./ip-speakers";
+import ProductCard from "@/app/components/ProductCard/ProductCard";
 
 export default function IPSpeakersPage() {
   return (
     <div className="page-offset">
       <div className="page-container">
         <h1 className="page-title">IP PA Speakers</h1>
-
         <div className="product-grid">
           {ipSpeakers.map((product) => (
             <Link
-              key={product.slug}
-              href={`/distribution/ip-speakers/${product.slug}`}
-              className="product-card"
+              key={product.id}
+              href={`/distribution/ip-speakers/${product.id}`}
             >
-              <img src={product.image} alt={product.name} />
-              <p>{product.name}</p>
+              <ProductCard product={product} />
             </Link>
           ))}
         </div>

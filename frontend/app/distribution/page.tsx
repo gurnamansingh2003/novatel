@@ -28,8 +28,8 @@ export default function DistributionPage() {
           <img src="/images/surveillance/NT-IDN22V.jpg" alt="Surveillance" />
           <h3>Surveillance</h3>
         </Link>
-        <Link href="/distribution/ip speakers" className="distribution-card">
-          <img src="/images/surveillance/NT-IDN22V.jpg" alt="Surveillance" />
+        <Link href="/distribution/ip-speakers" className="distribution-card">
+          <img src="/images/surveillance/NT-IDN22V.jpg" alt="IP Speakers" />
           <h3>IP Speakers</h3>
         </Link>
       </div>
