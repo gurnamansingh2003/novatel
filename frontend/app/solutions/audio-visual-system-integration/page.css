@@ -2,10 +2,7 @@
    AV SOLUTION PAGE STYLES
 ========================= */
 
-.av-solution-page {
-  min-height: 100vh;
-  background-color: #f8f9fa;
-}
+
 
 /* =========================
    HERO SECTION
@@ -38,12 +35,16 @@
 }
 
 .hero-overlay {
-  position: relative;
+   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(30, 58, 138, 0.6));
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 1;
-  text-align: center;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 .hero-content {
