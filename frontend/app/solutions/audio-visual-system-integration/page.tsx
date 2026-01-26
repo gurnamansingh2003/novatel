@@ -1,21 +1,19 @@
+"use client";
+
+import { useState } from "react";
+import QuickEnquiryModal from "@/app/components/QuickEnquiryModal/QuickEnquiryModal";
 import "./page.css";
 
-export const metadata = {
-  title: "Audio-Visual System Integration | Novatel",
-  description:
-    "Transform your space with our cutting-edge AV solutions. Novatel specializes in Audio-Visual System Integration for professional and educational settings.",
-};
-
 export default function AudioVisualIntegrationPage() {
+  const [showEnquiry, setShowEnquiry] = useState(false);
+
   return (
     <div className="av-solution-page">
       {/* Hero Section - Full Page */}
       <div className="hero-section">
         <div className="hero-overlay">
           <div className="hero-content">
-            <h1 className="hero-title">
-              Audio-Visual System Integration
-            </h1>
+            <h1 className="hero-title">Audio-Visual System Integration</h1>
             <p className="hero-subtitle">
               Transform your Space with our Cutting-Edge AV Solutions
             </p>
@@ -44,9 +42,9 @@ export default function AudioVisualIntegrationPage() {
               <p className="section-description">
                 Effective and seamless audio-visual (AV) integration is
                 essential for enhancing communication in both professional and
-                educational settings. At Novatel, we specialize in
-                Audio-Visual System Integration, providing state-of-the-art
-                solutions tailored to meet the unique needs of our clients.
+                educational settings. At Novatel, we specialize in Audio-Visual
+                System Integration, providing state-of-the-art solutions
+                tailored to meet the unique needs of our clients.
               </p>
               <p className="section-description">
                 Our team of experts ensures that every aspect of your AV system
@@ -54,11 +52,17 @@ export default function AudioVisualIntegrationPage() {
                 performance and reliability.
               </p>
 
-              <button className="enquiry-btn">Get a Quote</button>
+              {/* Button updated to "Enquire Now" triggering the modal */}
+              <button
+                className="enquiry-btn"
+                onClick={() => setShowEnquiry(true)}
+              >
+                Enquire Now
+              </button>
             </div>
           </div>
 
-          {/* Features/Benefits Section */}
+          {/* Features Section */}
           <div className="features-section">
             <h2 className="features-title">Our AV Solutions Include</h2>
             <div className="features-grid">
@@ -98,6 +102,9 @@ export default function AudioVisualIntegrationPage() {
           </div>
         </div>
       </div>
+
+      {/* Quick Enquiry Modal */}
+      {showEnquiry && <QuickEnquiryModal onClose={() => setShowEnquiry(false)} />}
     </div>
   );
 }

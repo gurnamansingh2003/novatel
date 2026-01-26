@@ -95,11 +95,6 @@
   transition: all 0.4s ease;
 }
 
-.enterprise-networking-page .solution-image:hover {
-  transform: scale(1.03);
-  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
-}
-
 .enterprise-networking-page .text-container {
   padding: 20px;
 }
@@ -173,14 +168,16 @@
   padding: 40px 30px;
   border-radius: 20px;
   text-align: center;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 2px solid transparent;
+  /* Removed interactive transitions and cursors */
+  cursor: default; 
+  border: 2px solid #e0f2fe; /* Static border instead of transparent to avoid shifts */
 }
 
+/* Removed hover effects from feature-card to stop looking like buttons */
 .enterprise-networking-page .feature-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  border-color: #6366f1;
-  box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2);
+  transform: none;
+  border-color: #e0f2fe;
+  box-shadow: none;
 }
 
 .enterprise-networking-page .feature-icon {
@@ -234,9 +231,13 @@
   transition: all 0.4s ease;
   border-left: 5px solid #6366f1;
   position: relative;
+  cursor: default; /* Keep benefit items non-interactive too */
 }
 
 .enterprise-networking-page .benefit-item:hover {
+  /* You can keep or remove this small slide effect; 
+     usually, it's fine for content cards but if you want it strictly static,
+     comment out the transform below */
   transform: translateX(10px);
   box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
 }
