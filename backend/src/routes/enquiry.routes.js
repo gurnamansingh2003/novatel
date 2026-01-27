@@ -6,10 +6,10 @@ const {
   updateEnquiryStatus,
 } = require('../controllers/enquiry.controller');
 
-// Public route - Submit enquiry
+// Public route
 router.post('/submit', submitEnquiry);
 
-// Admin routes - Get and manage enquiries
+// Admin routes
 router.get('/all', getAllEnquiries);
 router.patch('/:id/status', updateEnquiryStatus);
 
