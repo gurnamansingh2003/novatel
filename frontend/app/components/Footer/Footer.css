@@ -1,44 +1,292 @@
 /* =========================
-   FOOTER
+   FOOTER STYLES
 ========================= */
 
+.footer {
+  background: linear-gradient(135deg, #1a1d2e 0%, #0f1419 100%);
+  color: #ffffff;
+  padding: 80px 20px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.05)"/></svg>') repeat;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 60px;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 60px;
+}
+
+.footer-column {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.footer-heading {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.footer-underline {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #0a84d0 0%, #0668a8 100%);
+  border-radius: 2px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(10, 132, 208, 0.4);
+}
+
+.footer-text {
+  font-size: 15px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 16px;
+}
+
+.footer-text strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Partner List */
+.footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-list li {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  padding-left: 20px;
+}
+
+.footer-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: #0a84d0;
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.footer-list li:hover {
+  color: #0a84d0;
+  padding-left: 26px;
+}
+
+.footer-list li:hover::before {
+  transform: translateX(4px);
+}
+
+.footer-list li:last-child {
+  border-bottom: none;
+}
+
+/* Contact Info */
+.footer-contact {
+  margin-top: 20px;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 12px;
+  transition: color 0.3s ease;
+}
+
+.footer-contact-item:hover {
+  color: #0a84d0;
+}
+
+.footer-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* Subscribe Section */
+.footer-subscribe {
+  display: flex;
+  margin-top: 24px;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.footer-input {
+  flex: 1;
+  padding: 16px 24px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 15px;
+  min-width: 200px;
+}
+
+.footer-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-input:focus {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.footer-button {
+  padding: 16px 28px;
+  background: linear-gradient(135deg, #0a84d0 0%, #0668a8 100%);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-button:hover {
+  background: linear-gradient(135deg, #0668a8 0%, #044c7a 100%);
+  transform: translateX(2px);
+}
+
+.footer-button:active {
+  transform: scale(0.95);
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 24px 20px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 1024px) {
+  .footer-container {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 50px;
+  }
+}
+
 @media (max-width: 768px) {
-  footer[style*="backgroundColor: #f7f7f7"] {
-    padding: 40px 16px !important;
+  .footer {
+    padding: 60px 20px 0;
   }
 
-  footer[style*="backgroundColor: #f7f7f7"] div[style*="maxWidth: 1200px"] {
-    grid-template-columns: 1fr !important;
-    gap: 30px !important;
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
   }
 
-  footer[style*="backgroundColor: #f7f7f7"] div[style*="display: flex"][style*="marginTop: 16px"] {
-    flex-direction: column !important;
+  .footer-heading {
+    font-size: 18px;
   }
 
-  footer[style*="backgroundColor: #f7f7f7"] input {
-    width: 100% !important;
-    margin-bottom: 10px !important;
+  .footer-subscribe {
+    flex-direction: column;
+    border-radius: 16px;
   }
 
-  footer[style*="backgroundColor: #f7f7f7"] button {
-    width: 100% !important;
-    padding: 12px !important;
+  .footer-input {
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0;
+  }
+
+  .footer-button {
+    width: 100%;
+    padding: 14px 24px;
+    border-radius: 0;
+  }
+
+  .footer-button:hover {
+    transform: none;
   }
 }
 
 @media (max-width: 480px) {
-  footer[style*="backgroundColor: #f7f7f7"] {
-    padding: 30px 12px !important;
+  .footer {
+    padding: 40px 16px 0;
   }
 
-  footer[style*="backgroundColor: #f7f7f7"] h3 {
-    font-size: 16px !important;
+  .footer-container {
+    gap: 32px;
+    padding-bottom: 32px;
   }
 
-  footer[style*="backgroundColor: #f7f7f7"] p,
-  footer[style*="backgroundColor: #f7f7f7"] li {
-    font-size: 13px !important;
+  .footer-heading {
+    font-size: 17px;
+  }
+
+  .footer-text,
+  .footer-list li,
+  .footer-contact-item {
+    font-size: 14px;
+  }
+
+  .footer-input {
+    padding: 14px 20px;
+    font-size: 14px;
+  }
+
+  .footer-button {
+    padding: 14px 20px;
+    font-size: 16px;
+  }
+
+  .footer-bottom p {
+    font-size: 13px;
   }
 }
-

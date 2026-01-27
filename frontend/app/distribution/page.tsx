@@ -20,7 +20,7 @@ export default function DistributionPage() {
         </Link>
 
         <Link href="/distribution/phones" className="distribution-card">
-          <img src="/images/surveillance/NT-IDN22V.jpg" alt="Phones" />
+          <img src="/images/phones/NEOPHONE-FKT-01-B.jpg" alt="Phones" />
           <h3>Phones</h3>
         </Link>
 
@@ -29,7 +29,7 @@ export default function DistributionPage() {
           <h3>Surveillance</h3>
         </Link>
         <Link href="/distribution/ip-speakers" className="distribution-card">
-          <img src="/images/surveillance/NT-IDN22V.jpg" alt="IP Speakers" />
+          <img src="/images/ip-speakers/Ceiling-speaker-3.png" alt="IP Speakers" />
           <h3>IP Speakers</h3>
         </Link>
       </div>

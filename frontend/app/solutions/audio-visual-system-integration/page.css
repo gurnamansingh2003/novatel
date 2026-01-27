@@ -48,27 +48,21 @@
 }
 
 .hero-content {
-  animation: fadeInUp 1s ease-out;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+max-width: 1200px;
+  color: white;
+  text-align: center;
+  padding: 0 20px;
+  z-index: 2;
+  position: relative;
 }
 
 .hero-title {
-  font-size: 64px;
+   font-size: 5rem;
   font-weight: 800;
-  color: #ffffff;
-  margin-bottom: 24px;
-  line-height: 1.2;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
+  letter-spacing: -1px;
 }
 
 .hero-subtitle {
