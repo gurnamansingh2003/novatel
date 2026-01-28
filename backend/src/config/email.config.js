@@ -1,20 +1,25 @@
 const nodemailer = require('nodemailer');
 
-// Ensure the name here matches the export name below
 const createTransporter = () => {
   return nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
-    secure: true, 
+    secure: true, // SSL/TLS use karega
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      pass: process.env.EMAIL_PASS, // Bina space wala 16-digit code
     },
+    // Yeh settings timeouts ko bypass karne ke liye hai
+    debug: true, 
+    logger: true,
+    connectionTimeout: 20000, // 20 seconds wait karega
+    greetingTimeout: 20000,
+    socketTimeout: 20000,
     tls: {
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
+      minVersion: 'TLSv1.2'
     }
   });
 };
 
-// This must match the name used above
 module.exports = createTransporter;
