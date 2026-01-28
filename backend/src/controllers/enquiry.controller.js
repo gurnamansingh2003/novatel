@@ -5,27 +5,30 @@ exports.submitEnquiry = async (req, res) => {
   try {
     const { name, email, phone, city, message } = req.body;
     
-    // 1. DB Save (Pehle data safe karo)
+    // Save to DB
     const enquiry = await Enquiry.create({ name, email, phone, city, message });
     
-    // 2. Response to Frontend
-    res.status(201).json({ success: true, message: 'Enquiry submitted!' });
+    res.status(201).json({ success: true, message: 'Enquiry received!' });
 
-    // 3. SendGrid Email (Non-blocking)
     const sgMail = setupSendGrid();
+    
     const msg = {
       to: process.env.ADMIN_EMAIL,
-      from: process.env.EMAIL_FROM, // Yeh wahi email honi chahiye jo abhi verify ki
-      subject: `Novatel: New Enquiry from ${name}`,
-      html: `<h3>New Enquiry Details:</h3>
-             <p><b>Name:</b> ${name}</p>
+      // YAHAN DHAYAN DEIN: Render ke variable ka naam aur email check karein
+      from: process.env.EMAIL_FROM|| 'gnaman1531@gmail.com', 
+      subject: `New Enquiry from ${name}`,
+      html: `<p><b>Name:</b> ${name}</p>
              <p><b>Phone:</b> ${phone}</p>
              <p><b>Message:</b> ${message}</p>`,
     };
 
+    console.log("LOG: Attempting SendGrid send with FROM:", msg.from);
+
     sgMail.send(msg)
-      .then(() => console.log('LOG: Email sent via SendGrid successfully'))
-      .catch((error) => console.error('LOG: SendGrid Error:', error.response ? error.response.body : error.message));
+      .then(() => console.log('LOG: Success! Email sent via SendGrid'))
+      .catch((error) => {
+        console.error('LOG: SendGrid Detailed Error:', JSON.stringify(error.response ? error.response.body : error.message));
+      });
 
   } catch (error) {
     console.error('Controller Error:', error.message);
