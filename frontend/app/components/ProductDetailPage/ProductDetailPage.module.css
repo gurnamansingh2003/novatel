@@ -1,7 +1,10 @@
+/* Top padding comes from .page-offset (globals) so content clears fixed nav */
 .pageWrapper {
   min-height: 100vh;
   background: linear-gradient(160deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
-  padding: 2rem 0 4rem;
+  padding-bottom: 4rem;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .container {
