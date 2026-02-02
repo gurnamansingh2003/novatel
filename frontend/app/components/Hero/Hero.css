@@ -4,13 +4,14 @@
 
 .hero-section {
   min-height: 100vh;
-  height: 100vh;
+  /* Use svh/dvh for better mobile viewport handling if supported */
+  height: 100vh; 
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: url('/images/hero-bg.jpg'); /* Add your background image here */
-  background-size: 100% 100%;
+  background-image: url('/images/hero-bg.jpg'); 
+  background-size: cover; /* Changed from 100% 100% to prevent distortion */
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -38,14 +39,17 @@
   max-width: 1400px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 70vh;
+  /* Changed to center to control spacing manually */
+  justify-content: center; 
+  min-height: 80vh;
 }
 
 /* Left side - Main title */
 .hero-left {
   max-width: 800px;
-  margin-bottom: auto;
+  /* Pushes the title down from the top header area */
+  margin-top: 100px; 
+  margin-bottom: 40px;
 }
 
 .hero-title {
@@ -53,7 +57,7 @@
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 0;
-  white-space: pre-line; /* This allows line breaks from \n */
+  white-space: pre-line; 
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -62,7 +66,8 @@
   align-self: flex-end;
   max-width: 700px;
   text-align: right;
-  margin-top: auto;
+  /* Adds space between the title and the subtitle section */
+  margin-top: 60px; 
 }
 
 .hero-subtitle {
@@ -110,37 +115,6 @@
   transition: all 0.3s ease;
 }
 
-.hero-secondary-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #ffffff;
-  transform: translateY(-2px);
-}
-
-/* IP SPEAKERS HERO */
-.hero-gradient {
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
-  padding: 0 80px;
-  background: linear-gradient(135deg, #0f172a, #1e3a8a);
-  color: #ffffff;
-}
-
-.hero-content {
-  max-width: 650px;
-}
-
-.hero-content h1 {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 16px;
-}
-
-.hero-content p {
-  font-size: 1.15rem;
-  color: #c7d2fe;
-}
-
 /* =========================
    HERO RESPONSIVE
 ========================= */
@@ -151,136 +125,70 @@
     background-attachment: scroll;
   }
 
-  .hero-content-wrapper {
-    min-height: 60vh;
-  }
-
   .hero-title {
     font-size: 3.5rem;
   }
 
-  .hero-subtitle {
-    font-size: 1.1rem;
-  }
-
-  .hero-bottom-right {
-    max-width: 600px;
-  }
-
-  .hero-gradient {
-    padding: 0 50px;
-  }
-
-  .hero-content h1 {
-    font-size: 2.5rem;
+  .hero-left {
+    margin-top: 80px;
   }
 }
 
 @media (max-width: 768px) {
   .hero-section {
-    min-height: 100vh;
-    height: auto;
     padding: 40px 30px;
-    background-attachment: scroll;
-    background-position: center center;
   }
 
   .hero-content-wrapper {
-    min-height: 70vh;
-    justify-content: space-between;
+    justify-content: center;
   }
 
   .hero-left {
     max-width: 100%;
     text-align: center;
-    margin-bottom: 40px;
+    /* This pushes the "Powering Secure" down to fill the middle */
+    margin-top: 120px; 
+    margin-bottom: 20px;
   }
 
   .hero-bottom-right {
     align-self: center;
     text-align: center;
     max-width: 100%;
+    margin-top: 40px;
   }
 
   .hero-title {
-    font-size: 2.5rem;
-    margin-bottom: 0;
-  }
-
-  .hero-subtitle {
-    font-size: 1rem;
-    margin-bottom: 24px;
+    font-size: 2.8rem;
   }
 
   .hero-buttons {
     justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .hero-gradient {
-    min-height: 60vh;
-    padding: 0 30px;
-  }
-
-  .hero-content h1 {
-    font-size: 2rem;
-  }
-
-  .hero-content p {
-    font-size: 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .hero-section {
-    min-height: 100vh;
-    height: auto;
-    padding: 30px 20px;
-    background-attachment: scroll;
-    background-position: center center;
-  }
-
-  .hero-content-wrapper {
-    min-height: 70vh;
+  .hero-left {
+    /* Large top margin to ensure title is not hugging the top logo/nav */
+    margin-top: 150px; 
   }
 
   .hero-title {
-    font-size: 1.8rem;
-    margin-bottom: 0;
+    font-size: 2.2rem;
   }
 
   .hero-subtitle {
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-  }
-
-  .hero-primary-btn,
-  .hero-secondary-btn {
-    padding: 14px 24px;
-    font-size: 14px;
+    font-size: 1rem;
   }
 
   .hero-buttons {
     flex-direction: column;
     width: 100%;
-    gap: 12px;
   }
 
   .hero-primary-btn,
   .hero-secondary-btn {
     width: 100%;
-  }
-
-  .hero-gradient {
-    min-height: 50vh;
-    padding: 0 20px;
-  }
-
-  .hero-content h1 {
-    font-size: 1.5rem;
-  }
-
-  .hero-content p {
-    font-size: 0.9rem;
+    text-align: center;
   }
 }
