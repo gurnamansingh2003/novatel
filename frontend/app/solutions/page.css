@@ -1,7 +1,7 @@
 /* =========================
    SOLUTIONS LANDING PAGE
    (Dedicated CSS – no global changes)
-   Add your hero image at: public/images/solutions/hero-bg.jpg
+   Add your hero image at: public/images/solutions/hero-bg-solutions.jpg
 ========================= */
 
 .solutions-landing {
@@ -9,28 +9,31 @@
 }
 
 /* =========================
-   HERO – content + background image
+   HERO – full viewport, your image visible (no dark gradient)
 ========================= */
 
 .solutions-hero {
   position: relative;
-  min-height: 72vh;
+  /* Pull hero up so it fills viewport; padding-top clears fixed nav */
+  margin-top: -140px;
+  padding-top: 140px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #0f172a;
-  background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 58, 138, 0.85) 100%),
-    url("/images/solutions/hero-bg.jpg");
+  background-color: #1e293b;
+  background-image: url("/images/solutions/hero-bg-solutions.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 4rem 1.5rem 5rem;
+  padding: 140px 1.5rem 4rem 1.5rem;
 }
 
+/* Very light overlay so white text stays readable (optional – remove to show image fully) */
 .solutions-hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.75) 100%);
+  background: rgba(0, 0, 0, 0.12);
   pointer-events: none;
 }
 
@@ -173,10 +176,17 @@
    RESPONSIVE
 ========================= */
 
+@media (max-width: 1024px) {
+  .solutions-hero {
+    margin-top: -130px;
+    padding-top: 130px;
+    padding: 130px 1.25rem 3.5rem 1.25rem;
+  }
+}
+
 @media (max-width: 900px) {
   .solutions-hero {
-    min-height: 65vh;
-    padding: 3rem 1.25rem 4rem;
+    padding: 130px 1.25rem 3.5rem 1.25rem;
   }
 
   .solutions-cards__grid {
@@ -191,8 +201,9 @@
 
 @media (max-width: 768px) {
   .solutions-hero {
-    min-height: 60vh;
-    padding: 2.5rem 1rem 3.5rem;
+    margin-top: -120px;
+    padding-top: 120px;
+    padding: 120px 1rem 3rem 1rem;
   }
 
   .solutions-cards {
@@ -215,8 +226,7 @@
 
 @media (max-width: 480px) {
   .solutions-hero {
-    min-height: 55vh;
-    padding: 2rem 0.75rem 3rem;
+    padding: 120px 0.75rem 2.5rem 0.75rem;
   }
 
   .solutions-hero__content {
