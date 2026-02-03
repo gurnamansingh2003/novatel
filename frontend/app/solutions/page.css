@@ -1,0 +1,234 @@
+/* =========================
+   SOLUTIONS LANDING PAGE
+   (Dedicated CSS – no global changes)
+   Add your hero image at: public/images/solutions/hero-bg.jpg
+========================= */
+
+.solutions-landing {
+  min-height: 100vh;
+}
+
+/* =========================
+   HERO – content + background image
+========================= */
+
+.solutions-hero {
+  position: relative;
+  min-height: 72vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0f172a;
+  background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 58, 138, 0.85) 100%),
+    url("/images/solutions/hero-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 4rem 1.5rem 5rem;
+}
+
+.solutions-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.75) 100%);
+  pointer-events: none;
+}
+
+.solutions-hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  color: #fff;
+}
+
+.solutions-hero__title {
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  margin: 0 0 1rem 0;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.solutions-hero__tagline {
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+  font-weight: 600;
+  color: #e2e8f0;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.4;
+}
+
+.solutions-hero__about {
+  font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+  color: #cbd5e1;
+  line-height: 1.7;
+  margin: 0 0 1rem 0;
+}
+
+.solutions-hero__about--last {
+  margin-bottom: 0;
+  color: #94a3b8;
+}
+
+/* =========================
+   SOLUTION CARDS – scroll down
+========================= */
+
+.solutions-cards {
+  padding: 4rem 1.5rem 5rem;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.solutions-cards__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.solutions-cards__heading {
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.03em;
+  text-align: center;
+  margin: 0 0 2.5rem 0;
+}
+
+.solutions-cards__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+}
+
+/* Card */
+.solutions-card {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.75rem;
+  background: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s ease;
+  min-height: 280px;
+}
+
+.solutions-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+.solutions-card__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+}
+
+.solutions-card__title {
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0 0 0.75rem 0;
+}
+
+.solutions-card__desc {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0 0 1.25rem 0;
+  flex: 1;
+}
+
+.solutions-card__cta {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0ea5e9;
+  margin-top: auto;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.solutions-card:hover .solutions-card__cta {
+  color: #0284c7;
+}
+
+/* Card accent (optional visual distinction) */
+.solutions-card--networking {
+  border-top: 3px solid #0ea5e9;
+}
+
+.solutions-card--av {
+  border-top: 3px solid #8b5cf6;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .solutions-hero {
+    min-height: 65vh;
+    padding: 3rem 1.25rem 4rem;
+  }
+
+  .solutions-cards__grid {
+    gap: 1.5rem;
+  }
+
+  .solutions-card {
+    padding: 1.75rem 1.5rem;
+    min-height: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  .solutions-hero {
+    min-height: 60vh;
+    padding: 2.5rem 1rem 3.5rem;
+  }
+
+  .solutions-cards {
+    padding: 3rem 1rem 4rem;
+  }
+
+  .solutions-cards__heading {
+    margin-bottom: 2rem;
+  }
+
+  .solutions-cards__grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .solutions-card {
+    min-height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .solutions-hero {
+    min-height: 55vh;
+    padding: 2rem 0.75rem 3rem;
+  }
+
+  .solutions-hero__content {
+    text-align: left;
+  }
+
+  .solutions-cards {
+    padding: 2.5rem 0.75rem 3.5rem;
+  }
+
+  .solutions-card {
+    padding: 1.5rem 1.25rem;
+    min-height: 220px;
+  }
+}
