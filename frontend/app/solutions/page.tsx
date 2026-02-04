@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function SolutionsLandingPage() {
   return (
-    <div className="solutions-landing page-offset">
+    <div className="solutions-landing">
       {/* Hero: content + background image (add your image at public/images/solutions/hero-bg.jpg) */}
       <section className="solutions-hero" aria-label="Solutions overview">
         <div className="solutions-hero__overlay" />

@@ -19,6 +19,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 0;
+  padding-top: 0;
 }
 
 .enterprise-networking-page .hero-overlay {
@@ -38,7 +40,7 @@
   max-width: 1200px;
   color: white;
   text-align: center;
-  padding: 0 20px;
+  padding: 140px 20px 0;
   z-index: 2;
   position: relative;
 }
@@ -276,6 +278,10 @@
    RESPONSIVE DESIGN
 ====================== */
 @media (max-width: 1024px) {
+  .enterprise-networking-page .hero-content {
+    padding-top: 130px;
+  }
+
   .enterprise-networking-page .hero-title {
     font-size: 4rem;
   }
@@ -289,6 +295,10 @@
   .enterprise-networking-page .hero-section {
     min-height: 100vh;
     background-attachment: scroll;
+  }
+
+  .enterprise-networking-page .hero-content {
+    padding-top: 120px;
   }
 
   .enterprise-networking-page .hero-title {

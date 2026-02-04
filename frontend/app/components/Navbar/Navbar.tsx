@@ -15,6 +15,7 @@ export default function Navbar() {
   const [showAdmin, setShowAdmin] = useState(false);
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isSolutionsPage = pathname?.startsWith("/solutions");
 
   // Handle scroll for navbar styling
   useEffect(() => {
@@ -74,7 +75,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className={`navbar ${isHome ? "home" : "light"} ${scrolled ? "scrolled" : ""}`}>
+      <nav className={`navbar ${isHome || isSolutionsPage ? "home" : "light"} ${scrolled ? "scrolled" : ""}`}>
         <div className="navbar-container">
           {/* LOGO */}
           <Link href="/" className="nav-logo" onClick={closeMobileMenu}>NOVATEL</Link>
