@@ -1,6 +1,10 @@
+/* =========================
+   FEATURE CARDS / CAROUSEL
+========================= */
+
 .carousel-section {
   padding: 80px 0;
-  background-color: #fff;
+  background-color: #f9fafb;
   overflow: hidden;
 }
 
@@ -10,23 +14,24 @@
   font-weight: 800;
   margin-bottom: 50px;
   color: #000;
+  letter-spacing: 1px;
 }
 
-/* Outer container to hold arrows and cards */
+/* Parent container to keep arrows and cards aligned */
 .carousel-main-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 1200px; /* Limits the collective width */
+  max-width: 1300px; /* Collective width control */
   margin: 0 auto;
   position: relative;
-  gap: 20px;
+  padding: 0 20px;
 }
 
 .carousel-wrapper {
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 520px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,16 +40,16 @@
 
 .carousel-card {
   position: absolute;
-  width: 380px; /* Slightly smaller width */
+  width: 420px; /* Increased width from previous version */
   height: 480px;
-  border-radius: 20px;
+  border-radius: 24px;
   overflow: hidden;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   cursor: pointer;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
 }
 
-/* Position Adjustments - Narrower Stack */
+/* Desktop Positioning - Slightly tight but breathable */
 .carousel-card-center {
   transform: translateX(0) scale(1);
   z-index: 3;
@@ -52,13 +57,13 @@
 }
 
 .carousel-card-left {
-  transform: translateX(-320px) scale(0.85); /* Reduced from 550px */
+  transform: translateX(-380px) scale(0.85);
   z-index: 2;
   opacity: 0.6;
 }
 
 .carousel-card-right {
-  transform: translateX(320px) scale(0.85); /* Reduced from 550px */
+  transform: translateX(380px) scale(0.85);
   z-index: 2;
   opacity: 0.6;
 }
@@ -69,6 +74,7 @@
   pointer-events: none;
 }
 
+/* Image & Content Styling */
 .carousel-image-container {
   position: relative;
   width: 100%;
@@ -84,12 +90,12 @@
 .carousel-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  transition: background 0.5s ease;
+  background: rgba(0, 0, 0, 0.2);
+  transition: background 0.4s ease;
 }
 
 .carousel-overlay.active {
-  background: linear-gradient(to bottom, transparent 30%, rgba(0, 0, 0, 0.8) 100%);
+  background: linear-gradient(to bottom, transparent 20%, rgba(0, 0, 0, 0.85) 100%);
 }
 
 .carousel-content {
@@ -99,72 +105,113 @@
   right: 30px;
   z-index: 2;
   color: #fff;
-  animation: fadeIn 0.5s ease;
+  animation: slideUpFade 0.5s ease forwards;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .carousel-title {
-  font-size: 32px;
-  margin-bottom: 8px;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
 .carousel-description {
   font-size: 15px;
-  margin-bottom: 20px;
+  line-height: 1.4;
+  margin-bottom: 24px;
   opacity: 0.9;
 }
 
 .carousel-btn-primary {
-  padding: 10px 24px;
+  padding: 12px 28px;
   background: #fff;
   color: #000;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  transition: transform 0.2s;
 }
 
-/* Arrow Styling - Positioned outside the cards */
+.carousel-btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+/* Arrow Navigation - Placed outside the card width */
 .carousel-arrow {
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
-  background: #111;
-  color: #fff;
-  border: none;
+  background: #ffffff;
+  color: #000;
+  border: 1px solid #eee;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10;
-  transition: transform 0.2s;
-  flex-shrink: 0; /* Prevents arrows from squishing */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .carousel-arrow:hover {
-  transform: scale(1.1);
   background: #000;
+  color: #fff;
 }
 
-/* Responsive Logic */
-@media (max-width: 1100px) {
-  .carousel-card-left { transform: translateX(-250px) scale(0.8); }
-  .carousel-card-right { transform: translateX(250px) scale(0.8); }
-  .carousel-card { width: 320px; height: 420px; }
+/* =========================
+   RESPONSIVE UPDATES
+========================= */
+
+@media (max-width: 1024px) {
+  .carousel-card { width: 360px; height: 440px; }
+  .carousel-card-left { transform: translateX(-300px) scale(0.85); }
+  .carousel-card-right { transform: translateX(300px) scale(0.85); }
 }
 
 @media (max-width: 768px) {
-  .carousel-arrow { display: none; } /* Mobile uses swipe */
-  .carousel-card-left, .carousel-card-right {
-    opacity: 0; /* Hide side cards on mobile for cleaner look */
+  .carousel-arrow { display: none; } /* Mobile relies on touch swipe */
+  
+  .carousel-wrapper {
+    height: 480px;
   }
+
   .carousel-card {
-    width: 85vw;
-    height: 450px;
+    width: 280px; /* Width for the center card */
   }
-  .carousel-wrapper { height: 480px; }
+
+  /* Peeking effect: showing parts of the left/right cards */
+  .carousel-card-left {
+    opacity: 0.4;
+    transform: translateX(-260px) scale(0.8);
+    display: block; /* Ensure they stay visible */
+  }
+
+  .carousel-card-right {
+    opacity: 0.4;
+    transform: translateX(260px) scale(0.8);
+    display: block;
+  }
+
+  .carousel-title { font-size: 24px; }
+  .carousel-description { font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+  .carousel-card {
+    width: 260px; /* Slightly narrower for small phones */
+  }
+
+  .carousel-card-left {
+    transform: translateX(-230px) scale(0.75);
+  }
+
+  .carousel-card-right {
+    transform: translateX(230px) scale(0.75);
+  }
 }
