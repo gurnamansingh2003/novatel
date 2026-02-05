@@ -14,15 +14,6 @@ export default function Footer() {
             service of Telecom, Power, Networking and Office Automation
             equipment. It is an ISO 9001:2008 company.
           </p>
-
-          <div className="footer-subscribe">
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="footer-input"
-            />
-            <button className="footer-button">➤</button>
-          </div>
         </div>
 
         {/* PARTNERS */}
@@ -59,7 +50,6 @@ export default function Footer() {
               <span className="footer-icon">✉️</span>
               <span>novatelservices@gmail.com</span>
             </p>
-            
           </div>
         </div>
 
