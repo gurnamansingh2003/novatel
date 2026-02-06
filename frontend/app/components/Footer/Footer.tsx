@@ -44,11 +44,17 @@ export default function Footer() {
           <div className="footer-contact">
             <p className="footer-contact-item">
               <span className="footer-icon">📞</span>
-              <span>09417207294, 9417033842</span>
+              <span>
+                <a href="tel:+919417207294" className="footer-link">09417207294</a>
+                {", "}
+                <a href="tel:+919417033842" className="footer-link">9417033842</a>
+              </span>
             </p>
             <p className="footer-contact-item">
               <span className="footer-icon">✉️</span>
-              <span>novatelservices@gmail.com</span>
+              <a href="mailto:novatelservices@gmail.com" className="footer-link">
+                novatelservices@gmail.com
+              </a>
             </p>
           </div>
         </div>
