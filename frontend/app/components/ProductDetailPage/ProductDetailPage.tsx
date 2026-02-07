@@ -85,13 +85,9 @@ export default function ProductDetailPage({
                   <span className={styles.metaLabel}>Categories</span>
                   <div className={styles.metaTags}>
                     {product.categories.map((cat) => (
-                      <Link
-                        key={cat}
-                        href={`/distribution?category=${cat}`}
-                        className={styles.metaLink}
-                      >
+                      <span key={cat} className={styles.metaTag}>
                         {cat}
-                      </Link>
+                      </span>
                     ))}
                   </div>
                 </div>
