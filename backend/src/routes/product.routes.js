@@ -9,14 +9,11 @@ const {
   deleteProduct
 } = require("../controllers/product.controller");
 
-// CREATE
-router.post("/products", createProduct);
-
-// READ
-router.get("/products", getAllProducts);
-router.get("/products/:id", getProductById);
-router.put("/products/:id", updateProduct);
-router.delete("/products/:id", deleteProduct);
-
+// Ab app.js ke '/api/products' ke sath milkar ye perfect banenge
+router.post("/", createProduct);      // POST /api/products
+router.get("/", getAllProducts);       // GET /api/products
+router.get("/:id", getProductById);    // GET /api/products/:id
+router.put("/:id", updateProduct);     // PUT /api/products/:id
+router.delete("/:id", deleteProduct);  // DELETE /api/products/:id
 
 module.exports = router;

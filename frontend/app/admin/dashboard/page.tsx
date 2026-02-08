@@ -4,14 +4,11 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import "./dashboard.css";
 
-// Check kar ki tera backend port 5000 hi hai na?
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const API_URL = "http://localhost:3001/api";
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const [adminData, setAdminData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  
   const [activeTab, setActiveTab] = useState("dashboard");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
@@ -19,208 +16,180 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState<any[]>([]);
   const [enquiries, setEnquiries] = useState<any[]>([]);
 
+  // FETCH DATA
   const fetchData = useCallback(async () => {
     const token = localStorage.getItem("adminToken");
     if (!token) return;
 
     try {
-      // Dono calls ko check karo
       const [pRes, eRes] = await Promise.all([
-        fetch(`${API_URL}/products`, { 
-          headers: { "Authorization": `Bearer ${token}` },
-          cache: 'no-store' 
-        }),
-        // Backend route 'all' hai, isliye path fix kiya:
-        fetch(`${API_URL}/enquiries/all`, { 
-          headers: { "Authorization": `Bearer ${token}` },
-          cache: 'no-store' 
-        })
+        fetch(`${API_URL}/products`, { headers: { "Authorization": `Bearer ${token}` } }),
+        // Check app.js mounting: singular 'enquiry' vs plural 'enquiries'
+        fetch(`${API_URL}/enquiries/all`, { headers: { "Authorization": `Bearer ${token}` } })
       ]);
 
       const pData = await pRes.json();
       const eData = await eRes.json();
 
-      // Debugging ke liye console zaroor check kar F12 daba ke
-      console.log("Product Data:", pData);
-      console.log("Enquiry Data:", eData);
-
-      // Data extraction as per your controller
-      // Tera controller 'data' key bhej raha hai: res.status(200).json({ data: enquiries })
-      const pArr = pData.data || pData.products || (Array.isArray(pData) ? pData : []);
-      const eArr = eData.data || eData.enquiries || (Array.isArray(eData) ? eData : []);
-
-      setProducts(pArr);
-      setEnquiries(eArr);
+      if (pData.success) setProducts(pData.data || []);
+      if (eData.success) setEnquiries(eData.data || []);
     } catch (err) {
       console.error("Fetch error:", err);
     }
   }, []);
 
   useEffect(() => {
-    const verifyAndLoad = async () => {
+    const init = async () => {
       const token = localStorage.getItem("adminToken");
-      if (!token) {
-        router.push("/admin");
-        return;
-      }
-
+      if (!token) { router.push("/admin"); return; }
       try {
-        const res = await fetch(`${API_URL}/auth/verify`, {
-          headers: { "Authorization": `Bearer ${token}` },
-        });
+        const res = await fetch(`${API_URL}/auth/verify`, { headers: { "Authorization": `Bearer ${token}` } });
         const data = await res.json();
-
         if (res.ok && data.success) {
-          setAdminData(data.admin);
           await fetchData();
           setLoading(false);
-        } else {
-          throw new Error("Invalid Auth");
-        }
-      } catch (err) {
+        } else { throw new Error(); }
+      } catch {
         localStorage.clear();
         router.push("/admin");
       }
     };
-
-    verifyAndLoad();
-    // Har 5 second mein refresh karega naya enquiry dekhne ke liye
-    const interval = setInterval(fetchData, 5000);
-    return () => clearInterval(interval);
+    init();
   }, [router, fetchData]);
 
-  const handleLogout = () => {
-    localStorage.clear();
-    router.push("/");
+  // DELETE PRODUCT
+  const handleDeleteProduct = async (id: string) => {
+    if (!confirm("Pakka delete karna hai?")) return;
+    const token = localStorage.getItem("adminToken");
+    try {
+      const res = await fetch(`${API_URL}/products/${id}`, {
+        method: 'DELETE',
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (res.ok) fetchData();
+    } catch (err) { console.error("Delete error", err); }
   };
 
-  if (loading) {
-    return (
-      <div className="loading-screen">
-        <div className="loading-spinner"></div>
-      </div>
-    );
-  }
+  // ADD or UPDATE PRODUCT
+  const handleSaveProduct = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const token = localStorage.getItem("adminToken");
+    const formData = new FormData(e.currentTarget);
+    
+    const payload = {
+      name: formData.get("name"),
+      price: Number(formData.get("price")),
+      category: formData.get("category"),
+      stock: Number(formData.get("stock")),
+      description: formData.get("description"),
+      images: [formData.get("imageURL")] // Basic array format as per controller
+    };
+
+    const url = editingProduct ? `${API_URL}/products/${editingProduct._id}` : `${API_URL}/products`;
+    const method = editingProduct ? "PUT" : "POST";
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}` 
+        },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        setIsModalOpen(false);
+        setEditingProduct(null);
+        fetchData();
+      }
+    } catch (err) { console.error("Save error", err); }
+  };
+
+  if (loading) return <div className="loading-screen"><div className="loading-spinner"></div></div>;
 
   return (
     <div className="admin-dashboard">
       <aside className="admin-sidebar">
         <div className="sidebar-header">
           <h2 className="sidebar-logo">NOVATEL</h2>
-          <p className="sidebar-subtitle">Welcome, {adminData?.name || 'Admin'}</p>
         </div>
         <nav className="sidebar-nav">
-          <button onClick={() => setActiveTab("dashboard")} className={`nav-item ${activeTab === 'dashboard' ? 'active' : ''}`}>
-            Dashboard
-          </button>
-          <button onClick={() => setActiveTab("products")} className={`nav-item ${activeTab === 'products' ? 'active' : ''}`}>
-            Products Management
-          </button>
-          <button onClick={() => setActiveTab("enquiries")} className={`nav-item ${activeTab === 'enquiries' ? 'active' : ''}`}>
-            Enquiries List ({enquiries.length})
-          </button>
+          <button onClick={() => setActiveTab("dashboard")} className={`nav-item ${activeTab === 'dashboard' ? 'active' : ''}`}>Dashboard</button>
+          <button onClick={() => setActiveTab("products")} className={`nav-item ${activeTab === 'products' ? 'active' : ''}`}>Products Management</button>
+          <button onClick={() => setActiveTab("enquiries")} className={`nav-item ${activeTab === 'enquiries' ? 'active' : ''}`}>Enquiries ({enquiries.length})</button>
         </nav>
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
+        <button className="logout-btn" onClick={() => { localStorage.clear(); router.push("/"); }}>Logout</button>
       </aside>
 
       <main className="admin-main">
         <header className="admin-header">
-          <div>
-            <h1 className="page-title">{activeTab === 'dashboard' ? 'Overview' : activeTab.toUpperCase()}</h1>
-            <p className="page-subtitle">Real-time data monitoring</p>
-          </div>
+          <h1 className="page-title">{activeTab.toUpperCase()}</h1>
           {activeTab === "products" && (
-            <button className="add-btn" onClick={() => { setEditingProduct(null); setIsModalOpen(true); }}>
-              + Add New Product
-            </button>
+            <button className="add-btn" onClick={() => { setEditingProduct(null); setIsModalOpen(true); }}>+ Add Product</button>
           )}
         </header>
 
-        {activeTab === "dashboard" && (
+        {activeTab === "products" ? (
+          <div className="table-container">
+            <table className="admin-table">
+              <thead><tr><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
+              <tbody>
+                {products.map((p) => (
+                  <tr key={p._id}>
+                    <td>{p.name}</td>
+                    <td>${p.price}</td>
+                    <td>{p.stock}</td>
+                    <td>
+                      <button className="edit-link" onClick={() => { setEditingProduct(p); setIsModalOpen(true); }}>Edit</button>
+                      <button className="delete-link" onClick={() => handleDeleteProduct(p._id)}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : activeTab === "enquiries" ? (
+          <div className="table-container">
+            <table className="admin-table">
+              <thead><tr><th>User Details</th><th>Contact info</th><th>Message</th></tr></thead>
+              <tbody>
+                {enquiries.map((e) => (
+                  <tr key={e._id}>
+                    <td><strong>{e.name}</strong><br/>{e.email}</td>
+                    <td>{e.phone}</td>
+                    <td>{e.message}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
           <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-icon blue">📦</div>
-              <div className="stat-content">
-                <p className="stat-label">Total Products</p>
-                <h3 className="stat-value">{products.length}</h3>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon orange">📩</div>
-              <div className="stat-content">
-                <p className="stat-label">Total Enquiries</p>
-                <h3 className="stat-value">{enquiries.length}</h3>
-              </div>
-            </div>
+            <div className="stat-card"><h3>{products.length}</h3><p>Total Products</p></div>
+            <div className="stat-card"><h3>{enquiries.length}</h3><p>Total Enquiries</p></div>
           </div>
         )}
-
-        <div className="table-container">
-          <table className="admin-table">
-            <thead>
-              {activeTab === "products" ? (
-                <tr>
-                  <th>Product Name</th>
-                  <th>Price</th>
-                  <th>Category</th>
-                  <th>Actions</th>
-                </tr>
-              ) : (
-                <tr>
-                  <th>User Details</th>
-                  <th>Contact info</th>
-                  <th>Message</th>
-                  <th>Received On</th>
-                </tr>
-              )}
-            </thead>
-            <tbody>
-              {activeTab === "products" ? (
-                products.map((p: any) => (
-                  <tr key={p._id}>
-                    <td><strong>{p.name}</strong></td>
-                    <td>${p.price}</td>
-                    <td><span className="nav-item active" style={{padding: '4px 8px'}}>{p.category}</span></td>
-                    <td>
-                      <button className="edit-link">Edit</button>
-                      <button className="delete-link">Delete</button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                [...enquiries].reverse().map((e: any) => (
-                  <tr key={e._id}>
-                    <td>
-                      <div style={{fontWeight: '600'}}>{e.name}</div>
-                      <div style={{fontSize: '12px', color: '#666'}}>{e.email}</div>
-                    </td>
-                    <td>{e.phone}<br/>{e.city}</td>
-                    <td style={{maxWidth: '300px', whiteSpace: 'normal'}}>{e.message}</td>
-                    <td>{new Date(e.createdAt).toLocaleDateString()}</td>
-                  </tr>
-                ))
-              )}
-              {((activeTab === 'products' ? products.length : enquiries.length) === 0) && (
-                <tr>
-                  <td colSpan={4} style={{textAlign: 'center', padding: '40px', color: '#999'}}>
-                    No data available at the moment.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
       </main>
 
-      {/* Basic Modal for Add Product */}
+      {/* PRODUCT MODAL */}
       {isModalOpen && (
-        <div className="modal-overlay" style={{position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:1000}}>
-          <div style={{background:'white', padding:'30px', borderRadius:'12px', width:'400px'}}>
-            <h2>Add Product</h2>
-            <p>Form logic here...</p>
-            <button onClick={() => setIsModalOpen(false)}>Close</button>
+        <div className="modal-overlay" style={{position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:2000}}>
+          <div style={{background:'white', padding:'30px', borderRadius:'12px', width:'450px'}}>
+            <h2>{editingProduct ? "Edit Product" : "Add New Product"}</h2>
+            <form onSubmit={handleSaveProduct} style={{display:'flex', flexDirection:'column', gap:'15px', marginTop:'20px'}}>
+              <input name="name" placeholder="Product Name" defaultValue={editingProduct?.name} required style={{padding:'10px', borderRadius:'6px', border:'1px solid #ddd'}} />
+              <div style={{display:'flex', gap:'10px'}}>
+                <input name="price" type="number" placeholder="Price" defaultValue={editingProduct?.price} required style={{flex:1, padding:'10px', borderRadius:'6px', border:'1px solid #ddd'}} />
+                <input name="stock" type="number" placeholder="Stock" defaultValue={editingProduct?.stock} required style={{flex:1, padding:'10px', borderRadius:'6px', border:'1px solid #ddd'}} />
+              </div>
+              <input name="category" placeholder="Category" defaultValue={editingProduct?.category} required style={{padding:'10px', borderRadius:'6px', border:'1px solid #ddd'}} />
+              <input name="imageURL" placeholder="Image URL" defaultValue={editingProduct?.images?.[0]} required style={{padding:'10px', borderRadius:'6px', border:'1px solid #ddd'}} />
+              <textarea name="description" placeholder="Description" defaultValue={editingProduct?.description} style={{padding:'10px', borderRadius:'6px', border:'1px solid #ddd', height:'80px'}} />
+              <div style={{display:'flex', justifyContent:'flex-end', gap:'10px'}}>
+                <button type="button" onClick={() => setIsModalOpen(false)} style={{padding:'10px 20px', border:'none', cursor:'pointer'}}>Cancel</button>
+                <button type="submit" className="add-btn" style={{padding:'10px 20px'}}>Save Product</button>
+              </div>
+            </form>
           </div>
         </div>
       )}
