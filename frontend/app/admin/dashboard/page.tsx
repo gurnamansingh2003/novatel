@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import "./dashboard.css";
 
-const API_URL = "http://localhost:3001/api";
+
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -23,9 +23,9 @@ export default function AdminDashboard() {
 
     try {
       const [pRes, eRes] = await Promise.all([
-        fetch(`${API_URL}/products`, { headers: { "Authorization": `Bearer ${token}` } }),
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, { headers: { "Authorization": `Bearer ${token}` } }),
         // Check app.js mounting: singular 'enquiry' vs plural 'enquiries'
-        fetch(`${API_URL}/enquiries/all`, { headers: { "Authorization": `Bearer ${token}` } })
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/enquiries/all`, { headers: { "Authorization": `Bearer ${token}` } })
       ]);
 
       const pData = await pRes.json();
@@ -43,7 +43,7 @@ export default function AdminDashboard() {
       const token = localStorage.getItem("adminToken");
       if (!token) { router.push("/admin"); return; }
       try {
-        const res = await fetch(`${API_URL}/auth/verify`, { headers: { "Authorization": `Bearer ${token}` } });
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/verify`, { headers: { "Authorization": `Bearer ${token}` } });
         const data = await res.json();
         if (res.ok && data.success) {
           await fetchData();
@@ -62,7 +62,7 @@ export default function AdminDashboard() {
     if (!confirm("Pakka delete karna hai?")) return;
     const token = localStorage.getItem("adminToken");
     try {
-      const res = await fetch(`${API_URL}/products/${id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
         method: 'DELETE',
         headers: { "Authorization": `Bearer ${token}` }
       });
@@ -85,7 +85,7 @@ export default function AdminDashboard() {
       images: [formData.get("imageURL")] // Basic array format as per controller
     };
 
-    const url = editingProduct ? `${API_URL}/products/${editingProduct._id}` : `${API_URL}/products`;
+    const url = editingProduct ? `${process.env.NEXT_PUBLIC_API_URL}/products/${editingProduct._id}` : `${process.env.NEXT_PUBLIC_API_URL}/products`;
     const method = editingProduct ? "PUT" : "POST";
 
     try {
