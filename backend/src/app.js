@@ -35,7 +35,7 @@ const productRoutes = require("./routes/product.routes");
 const authRoutes = require('./routes/authRoutes');
 
 // API Routes
-app.use('/api/enquiry', enquiryRoutes); // Dashboard /api/enquiry/all hit karega
+app.use('/api/enquiries', enquiryRoutes); // Dashboard /api/enquiry/all hit karega
 app.use("/api/products", productRoutes); // Dashboard /api/products hit karega
 app.use('/api/auth', authRoutes);
 
