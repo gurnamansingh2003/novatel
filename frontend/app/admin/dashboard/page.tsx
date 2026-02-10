@@ -14,28 +14,23 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState<any[]>([]);
   const [enquiries, setEnquiries] = useState<any[]>([]);
 
+  // New state for dynamic specifications
+  const [specs, setSpecs] = useState([{ title: "", info: "" }]);
+
   const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
   const fetchData = useCallback(async () => {
     const token = localStorage.getItem("adminToken");
     if (!token) return;
-
     try {
       const [pRes, eRes] = await Promise.all([
         fetch(`${API_BASE}/products`, { headers: { "Authorization": `Bearer ${token}` } }),
         fetch(`${API_BASE}/enquiries/all`, { headers: { "Authorization": `Bearer ${token}` } })
       ]);
-
       const pData = await pRes.json();
       const eData = await eRes.json();
-
-      if (pData.success) {
-        setProducts(pData.data.filter((p: any) => p.isActive !== false) || []);
-      }
-      // ENQUIRIES FETCH FIX
-      if (eData.success) {
-        setEnquiries(eData.data || []);
-      }
+      if (pData.success) setProducts(pData.data.filter((p: any) => p.isActive !== false) || []);
+      if (eData.success) setEnquiries(eData.data || []);
     } catch (err) { console.error("Fetch error:", err); }
   }, [API_BASE]);
 
@@ -58,16 +53,14 @@ export default function AdminDashboard() {
     init();
   }, [router, fetchData, API_BASE]);
 
-  const handleDeleteProduct = async (id: string) => {
-    if (!confirm("Pakka delete karna hai?")) return;
-    const token = localStorage.getItem("adminToken");
-    try {
-      const res = await fetch(`${API_BASE}/products/${id}`, {
-        method: 'DELETE',
-        headers: { "Authorization": `Bearer ${token}` }
-      });
-      if (res.ok) fetchData();
-    } catch (err) { console.error("Delete error", err); }
+  const handleAddSpec = () => {
+    setSpecs([...specs, { title: "", info: "" }]);
+  };
+
+  const handleSpecChange = (index: number, field: string, value: string) => {
+    const updatedSpecs = [...specs];
+    updatedSpecs[index] = { ...updatedSpecs[index], [field]: value };
+    setSpecs(updatedSpecs);
   };
 
   const handleSaveProduct = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -77,11 +70,10 @@ export default function AdminDashboard() {
     
     const payload = {
       name: formData.get("name"),
-      price: Number(formData.get("price")),
       category: formData.get("category"),
-      stock: Number(formData.get("stock")),
       description: formData.get("description"),
       images: [formData.get("imageURL")],
+      specifications: specs.filter(s => s.title || s.info), // Only send non-empty specs
       isActive: true
     };
 
@@ -97,9 +89,20 @@ export default function AdminDashboard() {
       if (res.ok) {
         setIsModalOpen(false);
         setEditingProduct(null);
+        setSpecs([{ title: "", info: "" }]);
         fetchData();
       }
     } catch (err) { console.error("Save error", err); }
+  };
+
+  const openModal = (product: any = null) => {
+    setEditingProduct(product);
+    if (product && product.specifications) {
+      setSpecs(product.specifications);
+    } else {
+      setSpecs([{ title: "", info: "" }]);
+    }
+    setIsModalOpen(true);
   };
 
   if (loading) return <div className="loading-screen"><div className="loading-spinner"></div></div>;
@@ -120,28 +123,25 @@ export default function AdminDashboard() {
         <header className="admin-header">
           <h1 className="page-title">{activeTab.toUpperCase()}</h1>
           {activeTab === "products" && (
-            <button className="add-btn" onClick={() => { setEditingProduct(null); setIsModalOpen(true); }}>
-              + Add Product
-            </button>
+            <button className="add-btn" onClick={() => openModal()}>+ Add Product</button>
           )}
         </header>
 
-        {/* CONDITION LOGIC FIX */}
         {activeTab === "products" ? (
           <div className="table-container">
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th>Name</th><th>Price</th><th>Stock</th><th style={{ textAlign: "right", paddingRight: "30px" }}>Actions</th>
+                  <th>Name</th><th>Category</th><th style={{ textAlign: "right", paddingRight: "30px" }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {products.map((p) => (
                   <tr key={p._id}>
-                    <td>{p.name}</td><td>₹{p.price}</td><td>{p.stock}</td>
+                    <td>{p.name}</td><td>{p.category}</td>
                     <td style={{ textAlign: "right", paddingRight: "20px" }}>
-                      <button className="edit-btn" onClick={() => { setEditingProduct(p); setIsModalOpen(true); }}>Edit</button>
-                      <button className="delete-btn" onClick={() => handleDeleteProduct(p._id)}>Delete</button>
+                      <button className="edit-btn" onClick={() => openModal(p)}>Edit</button>
+                      <button className="delete-btn" onClick={() => {/* delete logic */}}>Delete</button>
                     </td>
                   </tr>
                 ))}
@@ -150,7 +150,7 @@ export default function AdminDashboard() {
           </div>
         ) : activeTab === "enquiries" ? (
           <div className="table-container">
-            <table className="admin-table">
+             <table className="admin-table">
               <thead><tr><th>User</th><th>Contact</th><th>Message</th></tr></thead>
               <tbody>
                 {enquiries.map((e) => (
@@ -174,23 +174,49 @@ export default function AdminDashboard() {
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <h2 style={{ marginBottom: '20px' }}>{editingProduct ? "Edit Product" : "Add New Product"}</h2>
-            <form onSubmit={handleSaveProduct} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-              <input name="name" placeholder="Name" defaultValue={editingProduct?.name} required className="form-input" />
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <input name="price" type="number" placeholder="Price" defaultValue={editingProduct?.price} required className="form-input" style={{ flex: 1 }} />
-                <input name="stock" type="number" placeholder="Stock" defaultValue={editingProduct?.stock} required className="form-input" style={{ flex: 1 }} />
+            <div className="modal-header">
+              <h2>{editingProduct ? "Edit Product" : "Add New Product"}</h2>
+            </div>
+            
+            <form onSubmit={handleSaveProduct}>
+              <div className="modal-body">
+                <input name="name" placeholder="Name" defaultValue={editingProduct?.name} required className="form-input" />
+                
+                <select name="category" defaultValue={editingProduct?.category || ""} required className="form-input">
+                  <option value="" disabled>Select Category</option>
+                  <option value="epabx">EPABX</option>
+                  <option value="phones">Phones</option>
+                  <option value="surveillance">Surveillance</option>
+                  <option value="ip-speakers">IP Speakers</option>
+                </select>
+
+                <input name="imageURL" placeholder="Image URL" defaultValue={editingProduct?.images?.[0]} required className="form-input" />
+                
+                <textarea name="description" placeholder="Description" defaultValue={editingProduct?.description} className="form-input" style={{ height: '80px', minHeight: '80px' }} />
+
+                <div className="specs-section">
+                  <h3>Specifications</h3>
+                  {specs.map((spec, index) => (
+                    <div key={index} className="spec-row">
+                      <input 
+                        placeholder="Add Title" 
+                        value={spec.title} 
+                        className="form-input" 
+                        onChange={(e) => handleSpecChange(index, 'title', e.target.value)}
+                      />
+                      <input 
+                        placeholder="Add Information" 
+                        value={spec.info} 
+                        className="form-input" 
+                        onChange={(e) => handleSpecChange(index, 'info', e.target.value)}
+                      />
+                    </div>
+                  ))}
+                  <button type="button" className="add-spec-btn" onClick={handleAddSpec}>+ Add More Info</button>
+                </div>
               </div>
-              <select name="category" defaultValue={editingProduct?.category || ""} required className="form-input">
-                <option value="" disabled>Select Category</option>
-                <option value="epabx">EPABX</option>
-                <option value="phones">Phones</option>
-                <option value="surveillance">Surveillance</option>
-                <option value="ip-speakers">IP Speakers</option>
-              </select>
-              <input name="imageURL" placeholder="Image URL" defaultValue={editingProduct?.images?.[0]} required className="form-input" />
-              <textarea name="description" placeholder="Description" defaultValue={editingProduct?.description} className="form-input" style={{ height: '80px' }} />
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+
+              <div className="modal-footer">
                 <button type="button" onClick={() => setIsModalOpen(false)} className="cancel-btn">Cancel</button>
                 <button type="submit" className="save-btn">Save Product</button>
               </div>

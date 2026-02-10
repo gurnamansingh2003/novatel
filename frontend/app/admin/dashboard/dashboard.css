@@ -27,18 +27,14 @@
   background: #f9fafb;
 }
 
-/* --- SIDEBAR --- */
+/* --- SIDEBAR (NOT STICKY) --- */
 .admin-sidebar {
   width: 280px;
   background: #ffffff;
   border-right: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
-  position: fixed;
-  height: 100vh;
-  left: 0;
-  top: 0;
-  z-index: 1001; /* Navbar se upar */
+  min-height: 100vh;
 }
 
 .sidebar-header {
@@ -86,15 +82,18 @@
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
-/* --- MAIN CONTENT (FIXED OVERLAP) --- */
+.logout-btn:hover {
+  background: #fecaca;
+}
+
+/* --- MAIN CONTENT (WITH TOP SPACING FOR NAVBAR) --- */
 .admin-main {
   flex: 1;
-  margin-left: 280px;
   padding: 32px;
-  /* NAVBAR FIX: 100px gap taaki button niche rahe */
-  margin-top: 100px; 
+  padding-top: 120px;
 }
 
 .admin-header {
@@ -128,14 +127,21 @@
   padding: 16px;
   text-align: left;
   border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+  color: #374151;
 }
 
 .admin-table td {
   padding: 16px;
   border-bottom: 1px solid #f3f4f6;
+  color: #6b7280;
 }
 
-/* --- BUTTONS (SIMPLE & CLEAN) --- */
+.admin-table tr:hover {
+  background: #f9fafb;
+}
+
+/* --- BUTTONS --- */
 .add-btn {
   background: #2563eb;
   color: white;
@@ -144,6 +150,11 @@
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-btn:hover {
+  background: #1d4ed8;
 }
 
 .edit-btn {
@@ -155,6 +166,11 @@
   cursor: pointer;
   margin-right: 8px;
   font-weight: 600;
+  transition: all 0.2s;
+}
+
+.edit-btn:hover {
+  background: #dbeafe;
 }
 
 .delete-btn {
@@ -165,6 +181,11 @@
   border-radius: 6px;
   cursor: pointer;
   font-weight: 600;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  background: #fecaca;
 }
 
 /* --- MODAL --- */
@@ -175,29 +196,199 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999; /* Sabse upar */
+  z-index: 9999;
+  backdrop-filter: blur(2px);
 }
 
 .modal-content {
   background: white;
-  padding: 30px;
+  padding: 40px;
   border-radius: 12px;
-  width: 450px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-.form-input {
+.modal-content h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin-bottom: 24px;
+}
+
+/* --- FORM INPUTS --- */
+.form-input,
+.form-select,
+.form-textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #9ca3af;
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 20px;
+  padding-right: 40px;
+}
+
+/* --- SPECIFICATIONS SECTION --- */
+.specifications-section {
+  margin-top: 32px;
+  margin-bottom: 24px;
+}
+
+.specifications-section h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+.spec-inputs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.spec-inputs .form-input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* --- ADD MORE INFO BUTTON --- */
+.add-more-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  margin-bottom: 24px;
+}
+
+.add-more-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.add-more-btn:active {
+  transform: translateY(0);
+}
+
+/* --- FORM ACTIONS (BUTTONS ON LEFT) --- */
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.cancel-btn {
+  background: white;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
 }
 
 .save-btn {
-  background: #28a745;
+  background: #10b981;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 32px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+
+.save-btn:hover {
+  background: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.save-btn:active {
+  transform: translateY(0);
+}
+
+/* --- RESPONSIVE DESIGN --- */
+@media (max-width: 768px) {
+  .admin-dashboard {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .admin-main {
+    padding: 20px;
+    padding-top: 100px;
+  }
+
+  .modal-content {
+    padding: 24px;
+    width: 95%;
+  }
+
+  .spec-inputs {
+    flex-direction: column;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
 }
