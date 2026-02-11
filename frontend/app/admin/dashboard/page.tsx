@@ -14,7 +14,15 @@ export default function AdminDashboard() {
   const [products, setProducts] = useState<any[]>([]);
   const [enquiries, setEnquiries] = useState<any[]>([]);
 
-  // New state for dynamic specifications
+  // Controlled state for main product fields
+  const [formData, setFormData] = useState({
+    name: "",
+    category: "",
+    description: "",
+    imageURL: ""
+  });
+
+  // State for dynamic specifications
   const [specs, setSpecs] = useState([{ title: "", info: "" }]);
 
   const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
@@ -53,6 +61,11 @@ export default function AdminDashboard() {
     init();
   }, [router, fetchData, API_BASE]);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
   const handleAddSpec = () => {
     setSpecs([...specs, { title: "", info: "" }]);
   };
@@ -66,16 +79,21 @@ export default function AdminDashboard() {
   const handleSaveProduct = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const token = localStorage.getItem("adminToken");
-    const formData = new FormData(e.currentTarget);
-    
+    const filteredSpecs = specs.filter(s => s.title.trim() !== "" && s.info.trim() !== "");
+
     const payload = {
-      name: formData.get("name"),
-      category: formData.get("category"),
-      description: formData.get("description"),
-      images: [formData.get("imageURL")],
-      specifications: specs.filter(s => s.title || s.info), // Only send non-empty specs
+      name: formData.name.trim(),
+      category: formData.category,
+      description: formData.description.trim(),
+      images: formData.imageURL ? [formData.imageURL.trim()] : [],
+      specifications: filteredSpecs,
       isActive: true
     };
+
+    if (!payload.name || !payload.category || !payload.images.length) {
+      alert("Please fill in Name, Category, and Image URL.");
+      return;
+    }
 
     const url = editingProduct ? `${API_BASE}/products/${editingProduct._id}` : `${API_BASE}/products`;
     const method = editingProduct ? "PUT" : "POST";
@@ -86,20 +104,34 @@ export default function AdminDashboard() {
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify(payload)
       });
+      
       if (res.ok) {
         setIsModalOpen(false);
         setEditingProduct(null);
         setSpecs([{ title: "", info: "" }]);
+        setFormData({ name: "", category: "", description: "", imageURL: "" });
         fetchData();
+      } else {
+        const responseData = await res.json();
+        alert(`Server Error: ${responseData.message || "Failed to save"}`);
       }
-    } catch (err) { console.error("Save error", err); }
+    } catch (err) { 
+      alert("Network error.");
+    }
   };
 
   const openModal = (product: any = null) => {
     setEditingProduct(product);
-    if (product && product.specifications) {
-      setSpecs(product.specifications);
+    if (product) {
+      setFormData({
+        name: product.name || "",
+        category: product.category || "",
+        description: product.description || "",
+        imageURL: product.images?.[0] || ""
+      });
+      setSpecs(product.specifications?.length > 0 ? product.specifications : [{ title: "", info: "" }]);
     } else {
+      setFormData({ name: "", category: "", description: "", imageURL: "" });
       setSpecs([{ title: "", info: "" }]);
     }
     setIsModalOpen(true);
@@ -127,7 +159,22 @@ export default function AdminDashboard() {
           )}
         </header>
 
-        {activeTab === "products" ? (
+        {/* DASHBOARD TAB */}
+        {activeTab === "dashboard" && (
+          <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
+            <div className="stat-card" style={{ background: 'white', padding: '30px', borderRadius: '15px', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
+              <h3 style={{ fontSize: '2rem', color: '#2563eb' }}>{products.length}</h3>
+              <p style={{ color: '#64748b', fontWeight: '600' }}>Active Products</p>
+            </div>
+            <div className="stat-card" style={{ background: 'white', padding: '30px', borderRadius: '15px', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
+              <h3 style={{ fontSize: '2rem', color: '#10b981' }}>{enquiries.length}</h3>
+              <p style={{ color: '#64748b', fontWeight: '600' }}>Total Enquiries</p>
+            </div>
+          </div>
+        )}
+
+        {/* PRODUCTS TAB */}
+        {activeTab === "products" && (
           <div className="table-container">
             <table className="admin-table">
               <thead>
@@ -148,7 +195,10 @@ export default function AdminDashboard() {
               </tbody>
             </table>
           </div>
-        ) : activeTab === "enquiries" ? (
+        )}
+
+        {/* ENQUIRIES TAB */}
+        {activeTab === "enquiries" && (
           <div className="table-container">
              <table className="admin-table">
               <thead><tr><th>User</th><th>Contact</th><th>Message</th></tr></thead>
@@ -163,60 +213,46 @@ export default function AdminDashboard() {
               </tbody>
             </table>
           </div>
-        ) : (
-          <div className="stats-grid">
-            <div className="stat-card"><h3>{products.length}</h3><p>Active Products</p></div>
-            <div className="stat-card"><h3>{enquiries.length}</h3><p>Total Enquiries</p></div>
-          </div>
         )}
       </main>
 
+      {/* MODAL WITH SCROLLABLE FIX */}
       {isModalOpen && (
         <div className="modal-overlay">
-          <div className="modal-content">
+          <div className="modal-content" style={{ display: 'flex', flexDirection: 'column', maxHeight: '85vh', overflow: 'hidden' }}>
             <div className="modal-header">
               <h2>{editingProduct ? "Edit Product" : "Add New Product"}</h2>
             </div>
             
-            <form onSubmit={handleSaveProduct}>
-              <div className="modal-body">
-                <input name="name" placeholder="Name" defaultValue={editingProduct?.name} required className="form-input" />
+            <form onSubmit={handleSaveProduct} style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
+              <div className="modal-body" style={{ flex: 1, overflowY: 'auto', padding: '32px' }}>
+                <input name="name" placeholder="Name" value={formData.name} onChange={handleInputChange} required className="form-input" />
                 
-                <select name="category" defaultValue={editingProduct?.category || ""} required className="form-input">
+                <select name="category" value={formData.category} onChange={handleInputChange} required className="form-input">
                   <option value="" disabled>Select Category</option>
-                  <option value="epabx">EPABX</option>
+                  <option value="epabx">epabx</option>
                   <option value="phones">Phones</option>
                   <option value="surveillance">Surveillance</option>
-                  <option value="ip-speakers">IP Speakers</option>
+                  <option value="ip speakers">IP Speakers</option>
                 </select>
 
-                <input name="imageURL" placeholder="Image URL" defaultValue={editingProduct?.images?.[0]} required className="form-input" />
+                <input name="imageURL" placeholder="Image URL" value={formData.imageURL} onChange={handleInputChange} required className="form-input" />
                 
-                <textarea name="description" placeholder="Description" defaultValue={editingProduct?.description} className="form-input" style={{ height: '80px', minHeight: '80px' }} />
+                <textarea name="description" placeholder="Description" value={formData.description} onChange={handleInputChange} className="form-input" style={{ height: '80px', minHeight: '80px' }} />
 
                 <div className="specs-section">
                   <h3>Specifications</h3>
                   {specs.map((spec, index) => (
                     <div key={index} className="spec-row">
-                      <input 
-                        placeholder="Add Title" 
-                        value={spec.title} 
-                        className="form-input" 
-                        onChange={(e) => handleSpecChange(index, 'title', e.target.value)}
-                      />
-                      <input 
-                        placeholder="Add Information" 
-                        value={spec.info} 
-                        className="form-input" 
-                        onChange={(e) => handleSpecChange(index, 'info', e.target.value)}
-                      />
+                      <input placeholder="Add Title" value={spec.title} className="form-input" onChange={(e) => handleSpecChange(index, 'title', e.target.value)} />
+                      <input placeholder="Add Information" value={spec.info} className="form-input" onChange={(e) => handleSpecChange(index, 'info', e.target.value)} />
                     </div>
                   ))}
                   <button type="button" className="add-spec-btn" onClick={handleAddSpec}>+ Add More Info</button>
                 </div>
               </div>
 
-              <div className="modal-footer">
+              <div className="modal-footer" style={{ flexShrink: 0 }}>
                 <button type="button" onClick={() => setIsModalOpen(false)} className="cancel-btn">Cancel</button>
                 <button type="submit" className="save-btn">Save Product</button>
               </div>

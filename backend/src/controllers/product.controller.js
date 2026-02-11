@@ -6,45 +6,29 @@ const Product = require("../models/product.model");
  */
 const createProduct = async (req, res) => {
   try {
-    const {
-      name,
-      description,
-      price,
-      images,
-      category,
-      stock,
-    } = req.body;
+    const { name, description, images, category, specifications } = req.body;
 
-    // 🔹 Basic validation (business logic)
-    if (!name || !price || !images || !category) {
+    // Validation
+    if (!name || !images || !category) {
       return res.status(400).json({
         success: false,
-        message: "Required fields are missing",
+        message: "Name, Category, and Images are required.",
       });
     }
 
-    // 🔹 Create product in DB
     const product = await Product.create({
       name,
       description,
-      price,
       images,
       category,
-      stock,
+      specifications, 
+      isActive: true
     });
 
-    res.status(201).json({
-      success: true,
-      message: "Product created successfully",
-      data: product,
-    });
+    res.status(201).json({ success: true, data: product });
   } catch (error) {
-    console.error("Create product error:", error);
-
-    res.status(500).json({
-      success: false,
-      message: "Server error while creating product",
-    });
+    console.error("Create error:", error);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -54,7 +38,8 @@ const createProduct = async (req, res) => {
  */
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    // Only fetch products where isActive is true
+    const products = await Product.find({ isActive: { $ne: false } });
 
     res.status(200).json({
       success: true,
@@ -62,12 +47,7 @@ const getAllProducts = async (req, res) => {
       data: products,
     });
   } catch (error) {
-    console.error("Get products error:", error);
-
-    res.status(500).json({
-      success: false,
-      message: "Server error while fetching products",
-    });
+    res.status(500).json({ success: false, message: "Error fetching products" });
   }
 };
 
@@ -78,27 +58,15 @@ const getAllProducts = async (req, res) => {
 const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
-
     if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Product not found",
-      });
+      return res.status(404).json({ success: false, message: "Product not found" });
     }
-
-    res.status(200).json({
-      success: true,
-      data: product,
-    });
+    res.status(200).json({ success: true, data: product });
   } catch (error) {
-    console.error("Get product error:", error);
-
-    res.status(500).json({
-      success: false,
-      message: "Server error while fetching product",
-    });
+    res.status(500).json({ success: false, message: "Error fetching product" });
   }
 };
+
 /**
  * UPDATE PRODUCT
  * PUT /api/products/:id
@@ -112,27 +80,17 @@ const updateProduct = async (req, res) => {
     );
 
     if (!updatedProduct) {
-      return res.status(404).json({
-        success: false,
-        message: "Product not found",
-      });
+      return res.status(404).json({ success: false, message: "Product not found" });
     }
 
-    res.status(200).json({
-      success: true,
-      message: "Product updated successfully",
-      data: updatedProduct,
-    });
+    res.status(200).json({ success: true, message: "Updated successfully", data: updatedProduct });
   } catch (error) {
-    console.error("Update product error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error while updating product",
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
+
 /**
- * DELETE PRODUCT (SOFT)
+ * DELETE PRODUCT (SOFT DELETE)
  * DELETE /api/products/:id
  */
 const deleteProduct = async (req, res) => {
@@ -144,28 +102,16 @@ const deleteProduct = async (req, res) => {
     );
 
     if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Product not found",
-      });
+      return res.status(404).json({ success: false, message: "Product not found" });
     }
 
-    res.status(200).json({
-      success: true,
-      message: "Product deleted successfully",
-    });
+    res.status(200).json({ success: true, message: "Product deleted successfully" });
   } catch (error) {
-    console.error("Delete product error:", error);
-
-    res.status(500).json({
-      success: false,
-      message: "Server error while deleting product",
-    });
+    res.status(500).json({ success: false, message: "Error deleting product" });
   }
 };
 
-
-
+// EXPORT ALL FUNCTIONS
 module.exports = {
   createProduct,
   getAllProducts,

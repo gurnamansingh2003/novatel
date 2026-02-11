@@ -18,7 +18,7 @@ export default async function EpabxProductDetailPage({ params }: Props) {
     <ProductDetailPage
       product={product}
       basePath="/distribution/epabx"
-      categoryLabel="EPABX"
+      categoryLabel="Epabx"
     />
   );
 }

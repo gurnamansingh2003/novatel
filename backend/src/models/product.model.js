@@ -13,12 +13,6 @@ const productSchema = new mongoose.Schema(
       trim: true,
     },
 
-    price: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-
     images: [
       {
         type: String,
@@ -29,12 +23,21 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      enum: ['epabx', 'phones', 'surveillance', 'ip speakers'],
     },
 
-    stock: {
-      type: Number,
-      default: 0,
-    },
+    specifications: [
+      {
+        title: {
+          type: String,
+          trim: true,
+        },
+        info: {
+          type: String,
+          trim: true,
+        }
+      }
+    ],
 
     isActive: {
       type: Boolean,
