@@ -61,6 +61,33 @@ export default function AdminDashboard() {
     init();
   }, [router, fetchData, API_BASE]);
 
+  // --- NEW DELETE LOGIC ---
+  const handleDeleteProduct = async (id: string) => {
+    if (!window.confirm("Are you sure you want to delete this product?")) return;
+
+    const token = localStorage.getItem("adminToken");
+    try {
+      const res = await fetch(`${API_BASE}/products/${id}`, {
+        method: "DELETE",
+        headers: { 
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (res.ok) {
+        // Refresh the list immediately
+        fetchData();
+      } else {
+        const errorData = await res.json();
+        alert(`Failed to delete: ${errorData.message}`);
+      }
+    } catch (err) {
+      console.error("Delete error:", err);
+      alert("Network error while deleting product.");
+    }
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -159,7 +186,6 @@ export default function AdminDashboard() {
           )}
         </header>
 
-        {/* DASHBOARD TAB */}
         {activeTab === "dashboard" && (
           <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
             <div className="stat-card" style={{ background: 'white', padding: '30px', borderRadius: '15px', textAlign: 'center', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
@@ -173,7 +199,6 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* PRODUCTS TAB */}
         {activeTab === "products" && (
           <div className="table-container">
             <table className="admin-table">
@@ -188,7 +213,12 @@ export default function AdminDashboard() {
                     <td>{p.name}</td><td>{p.category}</td>
                     <td style={{ textAlign: "right", paddingRight: "20px" }}>
                       <button className="edit-btn" onClick={() => openModal(p)}>Edit</button>
-                      <button className="delete-btn" onClick={() => {/* delete logic */}}>Delete</button>
+                      <button 
+                        className="delete-btn" 
+                        onClick={() => handleDeleteProduct(p._id)}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -197,7 +227,6 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* ENQUIRIES TAB */}
         {activeTab === "enquiries" && (
           <div className="table-container">
              <table className="admin-table">
@@ -216,7 +245,6 @@ export default function AdminDashboard() {
         )}
       </main>
 
-      {/* MODAL WITH SCROLLABLE FIX */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content" style={{ display: 'flex', flexDirection: 'column', maxHeight: '85vh', overflow: 'hidden' }}>
