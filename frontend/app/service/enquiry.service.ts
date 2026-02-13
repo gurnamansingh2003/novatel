@@ -1,5 +1,4 @@
 // frontend/app/service/enquiry.service.ts
-// Create this NEW FILE in your existing service folder
 
 interface EnquiryFormData {
   name: string;
@@ -15,11 +14,13 @@ interface EnquiryResponse {
   data?: any;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+// Sahi port 3001 hai aapke pichle context ke hisaab se
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
 export const submitEnquiry = async (formData: EnquiryFormData): Promise<EnquiryResponse> => {
   try {
-    const response = await fetch(`${API_URL}/enquiry/submit`, {
+    // Correct Path: /api/enquiries/submit
+    const response = await fetch(`${API_URL}/enquiries/submit`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,11 +29,7 @@ export const submitEnquiry = async (formData: EnquiryFormData): Promise<EnquiryR
     });
 
     const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Failed to submit enquiry');
-    }
-
+    if (!response.ok) throw new Error(data.message || 'Failed to submit enquiry');
     return data;
   } catch (error: any) {
     console.error('Enquiry submission error:', error);
@@ -40,52 +37,21 @@ export const submitEnquiry = async (formData: EnquiryFormData): Promise<EnquiryR
   }
 };
 
-// Optional: Get all enquiries (for admin panel)
 export const getAllEnquiries = async (): Promise<EnquiryResponse> => {
   try {
-    const response = await fetch(`${API_URL}/api/enquiry/all`, {
+    const token = localStorage.getItem("adminToken"); // Token zaroori hai
+    const response = await fetch(`${API_URL}/enquiries/all`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` 
       },
     });
 
     const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Failed to fetch enquiries');
-    }
-
+    if (!response.ok) throw new Error(data.message || 'Failed to fetch enquiries');
     return data;
   } catch (error: any) {
-    console.error('Error fetching enquiries:', error);
-    throw error;
-  }
-};
-
-// Optional: Update enquiry status (for admin panel)
-export const updateEnquiryStatus = async (
-  enquiryId: string,
-  status: 'new' | 'contacted' | 'closed'
-): Promise<EnquiryResponse> => {
-  try {
-    const response = await fetch(`${API_URL}/api/enquiry/${enquiryId}/status`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ status }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Failed to update enquiry status');
-    }
-
-    return data;
-  } catch (error: any) {
-    console.error('Error updating enquiry status:', error);
     throw error;
   }
 };
