@@ -6,18 +6,18 @@ import { useState } from "react";
 import QuickEnquiryModal from "@/app/components/QuickEnquiryModal/QuickEnquiryModal";
 import styles from "./ProductDetailPage.module.css";
 
+// Interface strictly matching your MongoDB screenshot
 interface Product {
-  id: string;
-  slug?: string;
+  _id: string;          // Maps to ObjectId in MongoDB
   name: string;
-  image: string;
   description: string;
-  fullDescription?: string;
-  features: string[];
-  categories?: string[];
-  specifications?: { label: string; value: string }[];
-  benefits?: string[];
-  downloads?: { name: string; url: string }[];
+  images: string[];     // Array of image strings
+  category: string;
+  specifications?: { label: string; value: string }[]; // Array of spec objects
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: number;
 }
 
 interface ProductDetailPageProps {
@@ -31,14 +31,19 @@ export default function ProductDetailPage({
   basePath,
   categoryLabel,
 }: ProductDetailPageProps) {
-  const [activeTab, setActiveTab] = useState("features");
+  const [activeTab, setActiveTab] = useState("specifications"); // Defaulting to specs as they exist in your DB
   const [showEnquiry, setShowEnquiry] = useState(false);
 
+  // Safely grab the first image from the 'images' array
+  const displayImage = product.images && product.images.length > 0 
+    ? product.images[0] 
+    : "/placeholder.png";
+
+  // Define tabs based on your MongoDB fields
   const tabs = [
-    { id: "features", label: "Features", show: true },
     { id: "specifications", label: "Specifications", show: !!product.specifications?.length },
-    { id: "benefits", label: "Benefits", show: !!product.benefits?.length },
-    { id: "downloads", label: "Downloads", show: !!product.downloads?.length },
+    // If you plan to add 'features' or 'benefits' to your DB later, they can stay here
+    { id: "description", label: "Overview", show: !!product.description },
   ].filter((tab) => tab.show);
 
   return (
@@ -59,7 +64,7 @@ export default function ProductDetailPage({
             <div className={styles.imageSection}>
               <div className={styles.imageInner}>
                 <Image
-                  src={product.image}
+                  src={displayImage}
                   alt={product.name}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 560px"
@@ -71,7 +76,7 @@ export default function ProductDetailPage({
             <div className={styles.detailsSection}>
               <h1 className={styles.productTitle}>{product.name}</h1>
               <p className={styles.productDescription}>
-                {product.fullDescription || product.description}
+                {product.description}
               </p>
               <button
                 type="button"
@@ -80,18 +85,15 @@ export default function ProductDetailPage({
               >
                 Enquire now
               </button>
-              {product.categories && product.categories.length > 0 && (
-                <div className={styles.metaInfo}>
-                  <span className={styles.metaLabel}>Categories</span>
-                  <div className={styles.metaTags}>
-                    {product.categories.map((cat) => (
-                      <span key={cat} className={styles.metaTag}>
-                        {cat}
-                      </span>
-                    ))}
-                  </div>
+              
+              <div className={styles.metaInfo}>
+                <span className={styles.metaLabel}>Category</span>
+                <div className={styles.metaTags}>
+                  <span className={styles.metaTag}>
+                    {product.category}
+                  </span>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -113,17 +115,6 @@ export default function ProductDetailPage({
           </div>
 
           <div className={styles.tabContent} role="tabpanel">
-            {activeTab === "features" && (
-              <ul className={styles.featureList}>
-                {product.features.map((feature, i) => (
-                  <li key={i} className={styles.featureItem}>
-                    <span className={styles.itemNumber}>{i + 1}</span>
-                    <span className={styles.featureText}>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-
             {activeTab === "specifications" && product.specifications && (
               <div className={styles.specGrid}>
                 {product.specifications.map((spec, i) => (
@@ -135,37 +126,10 @@ export default function ProductDetailPage({
               </div>
             )}
 
-            {activeTab === "benefits" && product.benefits && (
-              <ul className={styles.benefitList}>
-                {product.benefits.map((benefit, i) => (
-                  <li key={i} className={styles.benefitItem}>
-                    <span className={styles.benefitBullet} aria-hidden />
-                    <span>{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {activeTab === "downloads" && product.downloads && product.downloads.length > 0 && (
-              <ul className={styles.downloadList}>
-                {product.downloads.map((d, i) => (
-                  <li key={i} className={styles.downloadItem}>
-                    <a
-                      href={d.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.downloadLink}
-                    >
-                      <span className={styles.downloadIcon} aria-hidden>↓</span>
-                      {d.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {activeTab === "downloads" && (!product.downloads || product.downloads.length === 0) && (
-              <p className={styles.downloadEmpty}>No downloads available for this product.</p>
+            {activeTab === "description" && (
+              <div className={styles.descriptionTabContent}>
+                <p className={styles.featureText}>{product.description}</p>
+              </div>
             )}
           </div>
         </div>

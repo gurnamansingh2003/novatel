@@ -1,5 +1,5 @@
+export const dynamic = "force-dynamic"; // Sabse upar add karein
 import "../../page.css";
-import { phonesProducts } from "../phonesProducts";
 import { notFound } from "next/navigation";
 import ProductDetailPage from "@/app/components/ProductDetailPage/ProductDetailPage";
 
@@ -9,15 +9,27 @@ interface Props {
 
 export default async function PhoneDetailPage({ params }: Props) {
   const { id } = await params;
-  const product = phonesProducts.find((p) => p.id === id);
 
-  if (!product) return notFound();
+  try {
+    // Replace with your actual backend URL (usually from an env variable)
+    const res = await fetch(`http://localhost:3001/api/products/${id}`, {
+      cache: 'no-store' // Ensures you get fresh data from the dashboard
+    });
 
-  return (
-    <ProductDetailPage
-      product={product}
-      basePath="/distribution/phones"
-      categoryLabel="Phones"
-    />
-  );
+    if (!res.ok) return notFound();
+
+    const result = await res.json();
+    const product = result.data;
+
+    return (
+      <ProductDetailPage
+        product={product}
+        basePath="/distribution/phones"
+        categoryLabel="Phones"
+      />
+    );
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return notFound();
+  }
 }

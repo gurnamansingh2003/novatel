@@ -1,33 +1,34 @@
 import { notFound } from "next/navigation";
 import ProductDetailPage from "@/app/components/ProductDetailPage/ProductDetailPage";
-import { surveillanceProducts } from "../surveillanceProducts";
-// Import your DB client (Prisma, Mongoose, etc.)
-// import { db } from "@/lib/db"; 
+
+export const dynamic = "force-dynamic";
 
 interface Props {
-  params: Promise<{
-    id: string;
-  }>;
+  params: Promise<{ id: string }>;
 }
 
-export default async function ProductPage({ params }: Props) {
+export default async function SurveillanceDetailPage({ params }: Props) {
   const { id } = await params;
 
-  // Example DB Fetch (replace with your actual DB call)
-  // const product = await db.product.findUnique({ where: { id } });
-  
-  // For now, simulating a DB fetch from your array using ID:
-  const product = surveillanceProducts.find((p) => p.id === id);
+  try {
+    const res = await fetch(`http://localhost:3001/api/products/${id}`, {
+      cache: 'no-store'
+    });
 
-  if (!product) {
-    notFound();
+    if (!res.ok) return notFound();
+
+    const result = await res.json();
+    const product = result.data;
+
+    return (
+      <ProductDetailPage
+        product={product}
+        basePath="/distribution/surveillance"
+        categoryLabel="Surveillance"
+      />
+    );
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return notFound();
   }
-
-  return (
-    <ProductDetailPage 
-      product={product} 
-      basePath="/distribution/surveillance" 
-      categoryLabel="Surveillance" 
-    />
-  );
 }
